@@ -114,6 +114,19 @@
   }
 }
 
+.hc-discovery-enter-active,
+.hc-discovery-leave-active {
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.hc-discovery-enter-from,
+.hc-discovery-leave-to {
+  opacity: 0;
+  transform: translateY(0.75rem);
+}
+
 @keyframes hc-ripple {
   0% {
     opacity: 0.62;
