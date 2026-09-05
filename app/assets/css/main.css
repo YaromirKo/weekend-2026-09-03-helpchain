@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --color-hc-canvas: #f7f2ea;
+  --color-hc-paper: #fffdf8;
+  --color-hc-paper-soft: #fbf6ee;
+  --color-hc-ink: #20231f;
+  --color-hc-muted: #777167;
+  --color-hc-soft: #a89f91;
+  --color-hc-line: #e6dccd;
+  --color-hc-line-strong: #d7c9b7;
+  --color-hc-emerald: #0f4f3d;
+  --color-hc-emerald-soft: #dcebe3;
+  --color-hc-emerald-wash: #edf6f1;
+  --color-hc-coral: #c9674b;
+  --color-hc-coral-soft: #f5ded6;
+  --color-hc-amber: #d89b3d;
+  --color-hc-amber-soft: #f7ead0;
+
+  --shadow-hc-card: 0 18px 60px rgb(57 45 31 / 0.08);
+  --shadow-hc-soft: 0 12px 34px rgb(46 39 29 / 0.08);
+  --shadow-hc-button: 0 12px 22px rgb(15 79 61 / 0.18);
+}
+
+@layer base {
+  * {
+    @apply border-hc-line;
+  }
+
+  html {
+    @apply bg-hc-canvas text-hc-ink antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  body {
+    @apply min-h-screen bg-hc-canvas font-sans;
+  }
+
+  ::selection {
+    @apply bg-hc-emerald text-white;
+  }
+
+  button,
+  input,
+  textarea {
+    font: inherit;
+  }
+}
+
+@layer components {
+  .hc-page {
+    @apply min-h-screen overflow-hidden bg-hc-canvas text-hc-ink;
+    background:
+      radial-gradient(circle at 12% 10%, rgb(255 253 248 / 0.94) 0 16rem, transparent 28rem),
+      radial-gradient(circle at 88% 2%, rgb(220 235 227 / 0.7) 0 14rem, transparent 30rem),
+      linear-gradient(135deg, rgb(255 253 248 / 0.78), rgb(247 242 234 / 1) 46%, rgb(251 246 238 / 0.9));
+  }
+
+  .hc-container {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
+  }
+
+  .hc-section {
+    @apply py-14 sm:py-20 lg:py-24;
+  }
+
+  .hc-card {
+    @apply rounded-[8px] border border-hc-line bg-hc-paper shadow-hc-card;
+  }
+
+  .hc-card-soft {
+    @apply rounded-[8px] border border-hc-line bg-hc-paper-soft shadow-hc-soft;
+  }
+
+  .hc-button {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hc-emerald;
+  }
+
+  .hc-button-primary {
+    @apply bg-hc-emerald text-white shadow-hc-button hover:bg-[#0b4333];
+  }
+
+  .hc-button-secondary {
+    @apply border border-hc-line-strong bg-hc-paper text-hc-ink hover:border-hc-emerald hover:text-hc-emerald;
+  }
+
+  .hc-input {
+    @apply min-h-12 w-full rounded-full border border-hc-line bg-hc-paper px-5 text-sm text-hc-ink shadow-sm outline-none transition placeholder:text-hc-soft focus:border-hc-emerald focus:ring-4 focus:ring-hc-emerald-soft;
+  }
+
+  .hc-badge {
+    @apply inline-flex max-w-full items-center gap-2 rounded-full border border-hc-line bg-hc-paper-soft px-3 py-1 text-xs font-semibold uppercase leading-5 tracking-[0.08em] text-hc-muted sm:tracking-[0.14em];
+  }
+
+  .hc-node {
+    @apply flex size-9 items-center justify-center rounded-full border border-hc-line bg-hc-paper text-xs font-bold text-hc-emerald shadow-hc-soft sm:size-11 sm:text-sm;
+  }
+
+  .hc-ripple {
+    @apply absolute rounded-full border border-hc-emerald/15;
+    animation: hc-ripple 5.5s ease-out infinite;
+  }
+}
+
+@layer utilities {
+  .hc-text-balance {
+    text-wrap: balance;
+  }
+}
+
+@keyframes hc-ripple {
+  0% {
+    opacity: 0.62;
+    transform: scale(0.72);
+  }
+
+  75%,
+  100% {
+    opacity: 0;
+    transform: scale(1.28);
+  }
+}
