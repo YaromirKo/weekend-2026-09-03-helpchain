@@ -2,28 +2,36 @@
   <div class="hc-page">
     <NuxtRouteAnnouncer />
 
-    <header class="hc-container flex items-center justify-between py-6 sm:py-8">
-      <a
-        href="#"
-        class="group inline-flex items-center gap-3 rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-hc-emerald"
-        aria-label="HelpChain home"
-      >
-        <span class="relative flex size-11 items-center justify-center rounded-full bg-hc-emerald text-white shadow-hc-button">
-          <span class="absolute size-5 rounded-full border border-white/50" />
-          <span class="size-2 rounded-full bg-hc-amber" />
-        </span>
-        <span class="text-lg font-semibold tracking-[-0.01em] text-hc-ink">HelpChain</span>
-      </a>
+    <header class="border-b border-hc-line bg-hc-paper/70">
+      <div class="hc-container py-4 sm:py-0">
+        <div class="flex min-h-14 items-center justify-between gap-4 sm:min-h-20">
+          <a
+            href="#"
+            class="group inline-flex items-center gap-3 rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-hc-emerald"
+            aria-label="HelpChain home"
+          >
+            <span class="relative flex size-10 items-center justify-center rounded-full bg-hc-emerald text-white shadow-hc-button sm:size-11">
+              <span class="absolute size-5 rounded-full border border-white/50" />
+              <span class="size-2 rounded-full bg-hc-amber" />
+            </span>
+            <span class="text-lg font-semibold text-hc-ink">HelpChain</span>
+          </a>
 
-      <nav class="hidden items-center gap-8 text-sm font-medium text-hc-muted md:flex" aria-label="Main navigation">
-        <a href="#find-help" class="transition hover:text-hc-emerald">Find help</a>
-        <a href="#human-source" class="transition hover:text-hc-emerald">Human source</a>
-        <a href="#reuse" class="transition hover:text-hc-emerald">Reuse</a>
-      </nav>
+          <nav class="hidden items-center gap-10 md:flex" aria-label="Main navigation">
+            <a href="#find-help" class="hc-nav-link">Find Help</a>
+            <a href="#help-someone" class="hc-nav-link">Help Someone</a>
+          </nav>
 
-      <a href="#ask" class="hc-button hc-button-secondary hidden sm:inline-flex">
-        Ask for help
-      </a>
+          <a href="#ask" class="hc-button hc-button-primary min-h-10 px-4 text-xs shadow-none sm:min-h-11 sm:px-5 sm:text-sm">
+            Ask for Help
+          </a>
+        </div>
+
+        <nav class="mt-4 grid grid-cols-2 gap-2 border-t border-hc-line pt-3 md:hidden" aria-label="Mobile navigation">
+          <a href="#find-help" class="hc-nav-link rounded-full border border-hc-line bg-hc-paper-soft px-3 py-2 text-center">Find Help</a>
+          <a href="#help-someone" class="hc-nav-link rounded-full border border-hc-line bg-hc-paper-soft px-3 py-2 text-center">Help Someone</a>
+        </nav>
+      </div>
     </header>
 
     <main>
@@ -34,16 +42,16 @@
             AI makes human generosity reusable
           </span>
 
-          <h1 class="hc-text-balance mt-7 max-w-4xl text-5xl font-semibold leading-[0.95] tracking-[-0.04em] text-hc-ink sm:text-6xl lg:text-7xl">
+          <h1 class="hc-text-balance mt-7 max-w-3xl text-5xl font-semibold leading-[0.95] text-hc-ink sm:text-6xl lg:text-7xl">
             One person helps once. Their help keeps helping.
           </h1>
 
-          <p class="mt-7 max-w-2xl text-lg leading-8 text-hc-muted sm:text-xl">
+          <p class="mt-7 max-w-xl text-lg leading-8 text-hc-muted sm:text-xl">
             HelpChain starts with a real human demonstration, then turns that act into guidance people can discover, watch, follow, read, and hear.
           </p>
 
-          <div id="find-help" class="mt-10 max-w-2xl rounded-full border border-hc-line bg-hc-paper p-2 shadow-hc-card">
-            <form class="flex flex-col gap-2 sm:flex-row" aria-label="Search for existing help">
+          <div id="ask" class="mt-10 max-w-xl rounded-full border border-hc-line bg-hc-paper p-2 shadow-hc-card">
+            <form id="find-help" class="flex flex-col gap-2 sm:flex-row" aria-label="Search for existing help">
               <label class="sr-only" for="help-search">What do you need help with?</label>
               <input
                 id="help-search"
@@ -57,18 +65,21 @@
             </form>
           </div>
 
-          <div class="mt-8 grid max-w-2xl gap-3 text-sm text-hc-muted sm:grid-cols-3">
-            <div class="hc-card-soft p-4">
-              <div class="text-2xl font-semibold text-hc-emerald">27s</div>
-              <div class="mt-1">recorded by John</div>
+          <div class="mt-12 grid max-w-3xl gap-7 border-y border-hc-line py-8 text-hc-muted sm:grid-cols-[1.08fr_0.9fr_0.9fr] sm:gap-0">
+            <div class="sm:pr-7">
+              <p class="text-6xl font-semibold leading-none text-hc-emerald sm:text-7xl lg:text-8xl">27s</p>
+              <p class="mt-3 text-lg font-semibold leading-6 text-hc-ink">one recorded answer</p>
+              <p class="mt-2 max-w-xs text-base leading-7">John helps Anna with a quick demonstration.</p>
             </div>
-            <div class="hc-card-soft p-4">
-              <div class="text-2xl font-semibold text-hc-emerald">5</div>
-              <div class="mt-1">people helped later</div>
+            <div class="border-t border-hc-line pt-6 sm:border-l sm:border-t-0 sm:pl-7 sm:pt-0">
+              <p class="text-6xl font-semibold leading-none text-hc-emerald sm:text-7xl lg:text-8xl">5</p>
+              <p class="mt-3 text-lg font-semibold leading-6 text-hc-ink">people helped later</p>
+              <p class="mt-2 max-w-xs text-base leading-7">The same human answer keeps moving outward.</p>
             </div>
-            <div class="hc-card-soft p-4">
-              <div class="text-2xl font-semibold text-hc-emerald">4</div>
-              <div class="mt-1">ways to reuse it</div>
+            <div class="border-t border-hc-line pt-6 sm:border-l sm:border-t-0 sm:pl-7 sm:pt-0">
+              <p class="text-6xl font-semibold leading-none text-hc-emerald sm:text-7xl lg:text-8xl">4</p>
+              <p class="mt-3 text-lg font-semibold leading-6 text-hc-ink">ways to reuse it</p>
+              <p class="mt-2 max-w-xs text-base leading-7">Watch, follow, read, or listen to the source.</p>
             </div>
           </div>
         </div>
@@ -124,25 +135,37 @@
         </div>
       </section>
 
-      <section id="human-source" class="border-y border-hc-line bg-hc-paper/52 py-12">
-        <div class="hc-container grid gap-5 md:grid-cols-3">
-          <article class="hc-card p-6">
-            <div class="hc-badge border-hc-emerald/20 bg-hc-emerald-wash text-hc-emerald">Human source</div>
-            <h2 class="mt-5 text-2xl font-semibold tracking-[-0.02em] text-hc-ink">A real person demonstrates the solution.</h2>
-            <p class="mt-4 leading-7 text-hc-muted">The original helper stays visible as the source of the knowledge.</p>
-          </article>
+      <section id="help-someone" class="border-y border-hc-line bg-hc-paper/52 py-16 sm:py-20">
+        <div class="hc-container grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+          <div class="max-w-md">
+            <div class="hc-badge border-hc-emerald/20 bg-hc-emerald-wash text-hc-emerald">Reusable help path</div>
+            <h2 class="hc-text-balance mt-5 text-3xl font-semibold leading-tight text-hc-ink sm:text-4xl">
+              From one answer to many forms of guidance.
+            </h2>
+            <p class="mt-5 text-base leading-8 text-hc-muted sm:text-lg">
+              The layout keeps the source human visible while the product shows what AI adds around that contribution.
+            </p>
+          </div>
 
-          <article class="hc-card p-6">
-            <div class="hc-badge border-hc-coral/20 bg-hc-coral-soft text-hc-coral">AI amplification</div>
-            <h2 class="mt-5 text-2xl font-semibold tracking-[-0.02em] text-hc-ink">AI reshapes the demo into reusable guidance.</h2>
-            <p class="mt-4 leading-7 text-hc-muted">The contribution becomes steps, captions, summaries, audio, and search context.</p>
-          </article>
+          <div class="grid gap-5 md:grid-cols-2">
+            <article class="hc-card p-6 sm:p-7 md:col-span-2 lg:mr-12">
+              <div class="hc-badge border-hc-emerald/20 bg-hc-emerald-wash text-hc-emerald">Human source</div>
+              <h3 class="mt-5 max-w-xl text-lg font-semibold leading-7 text-hc-ink sm:text-xl">A real person demonstrates the solution.</h3>
+              <p class="mt-4 max-w-2xl text-base leading-7 text-hc-muted sm:text-lg">The original helper stays visible as the source of the knowledge.</p>
+            </article>
 
-          <article id="reuse" class="hc-card p-6">
-            <div class="hc-badge border-hc-amber/20 bg-hc-amber-soft text-hc-ink">Growing chain</div>
-            <h2 class="mt-5 text-2xl font-semibold tracking-[-0.02em] text-hc-ink">Each “this helped me” extends the path.</h2>
-            <p class="mt-4 leading-7 text-hc-muted">One generous answer keeps spreading beyond the first person who asked.</p>
-          </article>
+            <article class="hc-card p-6 sm:p-7">
+              <div class="hc-badge border-hc-coral/20 bg-hc-coral-soft text-hc-coral">AI amplification</div>
+              <h3 class="mt-5 text-lg font-semibold leading-7 text-hc-ink sm:text-xl">AI reshapes the demo into reusable guidance.</h3>
+              <p class="mt-4 text-base leading-7 text-hc-muted sm:text-lg">The contribution becomes steps, captions, summaries, audio, and search context.</p>
+            </article>
+
+            <article id="reuse" class="hc-card p-6 sm:p-7 md:mt-10">
+              <div class="hc-badge border-hc-amber/20 bg-hc-amber-soft text-hc-ink">Growing chain</div>
+              <h3 class="mt-5 text-lg font-semibold leading-7 text-hc-ink sm:text-xl">Each “this helped me” extends the path.</h3>
+              <p class="mt-4 text-base leading-7 text-hc-muted sm:text-lg">One generous answer keeps spreading beyond the first person who asked.</p>
+            </article>
+          </div>
         </div>
       </section>
     </main>

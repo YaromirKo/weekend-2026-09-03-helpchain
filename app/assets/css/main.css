@@ -74,6 +74,10 @@
     @apply rounded-[8px] border border-hc-line bg-hc-paper-soft shadow-hc-soft;
   }
 
+  .hc-nav-link {
+    @apply text-sm font-semibold text-hc-muted transition duration-200 hover:text-hc-emerald focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-hc-emerald;
+  }
+
   .hc-button {
     @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hc-emerald;
   }
@@ -91,7 +95,7 @@
   }
 
   .hc-badge {
-    @apply inline-flex max-w-full items-center gap-2 rounded-full border border-hc-line bg-hc-paper-soft px-3 py-1 text-xs font-semibold uppercase leading-5 tracking-[0.08em] text-hc-muted sm:tracking-[0.14em];
+    @apply inline-flex max-w-full items-center gap-2 rounded-full border border-hc-line bg-hc-paper-soft px-3 py-1 text-xs font-semibold uppercase leading-5 text-hc-muted;
   }
 
   .hc-node {
