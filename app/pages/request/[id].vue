@@ -39,7 +39,7 @@ const transformStatusText = computed(() => {
     return "John's answer can now help the next person.";
   }
 
-  return videoAccepted.value ? "John's video is selected as the source." : "Start from John's human answer.";
+  return videoAccepted.value ? "John's video is selected as the source." : "Start from John's answer.";
 });
 
 const markVideoAccepted = () => {
@@ -95,7 +95,7 @@ onBeforeUnmount(() => {
                 <span class="flex size-8 items-center justify-center rounded-full bg-hc-emerald text-xs text-white">
                   A
                 </span>
-                Anna needs a human demonstration
+                Anna needs someone to show it
               </span>
               <span class="inline-flex items-center gap-2">
                 <span class="size-2 rounded-full bg-hc-amber" />
@@ -126,7 +126,7 @@ onBeforeUnmount(() => {
 
         <aside class="min-w-0 rounded-[8px] bg-hc-emerald p-6 text-white shadow-hc-card sm:p-8">
           <span class="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase leading-5 text-white/75">
-            Human answer ready
+            Answer from John
           </span>
 
           <h2 class="hc-text-balance mt-5 text-3xl font-semibold leading-tight sm:text-4xl">
@@ -152,11 +152,11 @@ onBeforeUnmount(() => {
 
       <div class="grid gap-6 lg:grid-cols-[1.06fr_0.94fr] lg:items-start">
         <VideoPreview
-          label="John's human answer"
+          label="John's answer"
           helper-name="John"
           helper-initial="J"
           duration="0:27"
-          note="John's human demonstration is the source of everything that comes next. AI has not rewritten it yet."
+          note="John's video is the source of everything that comes next. The guide starts from what he showed."
           primary-cta="Use this video"
           secondary-cta="Record again"
           @primary="markVideoAccepted"
@@ -181,8 +181,8 @@ onBeforeUnmount(() => {
                 J
               </span>
               <div>
-                <p class="text-xs font-semibold uppercase leading-4 text-hc-muted">from human source</p>
-                <p class="text-base font-semibold leading-6 text-hc-ink">John's human answer</p>
+                <p class="text-xs font-semibold uppercase leading-4 text-hc-muted">from source video</p>
+                <p class="text-base font-semibold leading-6 text-hc-ink">John's answer</p>
               </div>
             </div>
 
@@ -206,7 +206,7 @@ onBeforeUnmount(() => {
               Turn this answer into reusable help
             </h2>
             <p class="mt-5 text-base leading-8 text-hc-muted sm:text-lg">
-              AI will organize your demonstration into clear steps while keeping your human answer as the source.
+              HelpChain will organize your demonstration into clear steps while keeping your answer as the source.
             </p>
 
             <button

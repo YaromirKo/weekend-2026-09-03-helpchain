@@ -12,7 +12,7 @@ defineProps<{
       <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <p class="text-xs font-semibold uppercase leading-5 text-white/70">
-            Found through donated human knowledge
+            Found through shared knowledge
           </p>
           <h2 class="mt-2 max-w-xl text-2xl font-semibold leading-tight sm:text-3xl">
             Someone had already helped with something similar.
@@ -41,7 +41,7 @@ defineProps<{
 
         <div class="mt-6 space-y-3 text-sm font-semibold text-hc-muted">
           <div class="flex items-center justify-between gap-4 border-t border-hc-line pt-3">
-            <span>{{ result.duration }} human answer</span>
+            <span>{{ result.duration }} source answer</span>
             <span class="size-2 rounded-full bg-hc-emerald" />
           </div>
           <div class="flex items-center justify-between gap-4 border-t border-hc-line pt-3">
@@ -73,7 +73,7 @@ defineProps<{
             See how John helped
           </AppButton>
           <p class="text-sm font-semibold leading-6 text-hc-muted">
-            AI made the human answer searchable, step-by-step, and listenable.
+            HelpChain made the answer searchable, step-by-step, and listenable.
           </p>
         </div>
       </div>

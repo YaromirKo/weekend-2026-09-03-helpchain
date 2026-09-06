@@ -10,7 +10,7 @@ defineProps<{
     <div class="absolute -right-8 -top-10 size-28 rounded-full border border-hc-emerald/10" />
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <p class="text-sm font-semibold leading-6 text-hc-ink">Found through donated human knowledge</p>
+        <p class="text-sm font-semibold leading-6 text-hc-ink">Found through shared knowledge</p>
         <p class="mt-1 text-2xl font-semibold leading-tight text-hc-emerald">
           {{ matchPercent }}% relevant to the problem you described
         </p>

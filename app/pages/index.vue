@@ -12,14 +12,14 @@ import {
     <section class="hc-container pb-16 pt-10 lg:pb-24 lg:pt-14">
       <div class="grid min-h-[calc(100vh-9rem)] items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
         <div class="relative z-10 max-w-3xl">
-          <StatusBadge tone="emerald" dot>AI makes human generosity reusable</StatusBadge>
+          <StatusBadge tone="emerald" dot>Real answers that keep helping</StatusBadge>
 
           <h1 class="hc-text-balance mt-7 max-w-3xl text-5xl font-semibold leading-[0.95] text-hc-ink sm:text-6xl lg:text-7xl">
-            Someone already helped. Find the human answer.
+            Someone already solved this. Follow their answer.
           </h1>
 
           <p class="mt-7 max-w-2xl text-lg leading-8 text-hc-muted sm:text-xl">
-            HelpChain looks for a real person who solved something similar, then uses AI to make that human help easier to watch, follow, read, and listen to.
+            HelpChain finds answers people have already shared, then turns them into guides that are easier to watch, follow, read, and listen to.
           </p>
 
           <div class="mt-10">
@@ -27,10 +27,10 @@ import {
           </div>
         </div>
 
-        <div class="relative z-10 mx-auto w-full max-w-[35rem] lg:mx-0 lg:justify-self-end" aria-label="One human answer branching into reusable help">
+        <div class="relative z-10 mx-auto w-full max-w-[35rem] lg:mx-0 lg:justify-self-end" aria-label="One answer branching into reusable help">
           <div class="relative overflow-hidden rounded-[8px] border border-hc-line bg-hc-paper shadow-hc-card">
             <div class="border-b border-hc-line bg-hc-emerald px-5 py-4 text-white sm:px-6">
-              <p class="text-sm font-semibold uppercase leading-5 text-white/70">Human source stays visible</p>
+              <p class="text-sm font-semibold uppercase leading-5 text-white/70">The source stays visible</p>
               <p class="mt-1 text-2xl font-semibold leading-tight">John records one 27-second answer.</p>
             </div>
 
@@ -46,7 +46,7 @@ import {
               <div class="absolute left-1/2 top-1/2 z-10 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full border border-hc-emerald/20 bg-hc-emerald p-4 text-center text-white shadow-hc-button sm:w-48 sm:p-5">
                 <div class="mx-auto flex size-16 items-center justify-center rounded-full bg-white/10 text-3xl font-semibold">J</div>
                 <p class="mt-3 text-sm font-semibold leading-5">John donated a fix</p>
-                <p class="mt-1 text-xs leading-4 text-white/70">original human answer</p>
+                <p class="mt-1 text-xs leading-4 text-white/70">original answer</p>
               </div>
 
               <div class="absolute left-[18%] top-[36%] z-10 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center">
@@ -98,10 +98,10 @@ import {
           <div class="max-w-md">
             <StatusBadge tone="emerald">Reusable help path</StatusBadge>
             <h2 class="hc-text-balance mt-5 text-3xl font-semibold leading-tight text-hc-ink sm:text-4xl">
-              The helper is the source. AI carries the shape.
+              The helper stays at the center. HelpChain carries the answer forward.
             </h2>
             <p class="mt-5 text-base leading-8 text-hc-muted sm:text-lg">
-              A short human demonstration can become searchable steps, accessible narration, and a guide that keeps credit attached to the person who helped first.
+              A short answer can become searchable steps, accessible narration, and a guide that keeps credit attached to the person who helped first.
             </p>
           </div>
 
@@ -129,7 +129,7 @@ import {
               People who could use your help
             </h2>
             <p class="mt-5 text-base leading-8 text-hc-muted sm:text-lg">
-              Small questions become reusable guidance when someone records the first clear human answer.
+              Small questions become reusable guidance when someone records the first clear answer.
             </p>
           </div>
 

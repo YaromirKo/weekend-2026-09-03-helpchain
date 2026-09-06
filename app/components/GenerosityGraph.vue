@@ -31,7 +31,7 @@ const displayCount = computed(() => props.helpedCount + (props.showNewNode ? 1 :
         <div class="mt-8 grid grid-cols-1 gap-3 text-center sm:grid-cols-3 lg:grid-cols-1 lg:text-left xl:grid-cols-3 xl:text-center">
           <div class="rounded-[8px] border border-hc-line bg-hc-paper-soft p-4">
             <p class="text-3xl font-semibold leading-none text-hc-emerald">1</p>
-            <p class="mt-2 text-xs font-semibold uppercase leading-4 text-hc-muted">human answer</p>
+            <p class="mt-2 text-xs font-semibold uppercase leading-4 text-hc-muted">shared answer</p>
           </div>
           <div class="rounded-[8px] border border-hc-line bg-hc-paper-soft p-4">
             <p class="text-3xl font-semibold leading-none text-hc-emerald">{{ displayCount }}</p>
@@ -44,7 +44,7 @@ const displayCount = computed(() => props.helpedCount + (props.showNewNode ? 1 :
         </div>
 
         <div class="mt-6 rounded-[8px] border border-hc-line bg-hc-paper-soft p-4 text-center">
-          <p class="text-base font-semibold leading-6 text-hc-ink">1 human answer</p>
+          <p class="text-base font-semibold leading-6 text-hc-ink">1 shared answer</p>
           <p class="py-2 text-xl font-semibold leading-none text-hc-emerald">↓</p>
           <p class="text-base font-semibold leading-6 text-hc-ink">{{ displayCount }} people helped</p>
           <p class="py-2 text-xl font-semibold leading-none text-hc-emerald">↓</p>

@@ -49,7 +49,7 @@ const activeMoment = computed(() => {
       <div class="grid gap-8 lg:grid-cols-[minmax(0,0.96fr)_minmax(0,1.04fr)] lg:items-start">
         <div class="min-w-0 lg:sticky lg:top-28">
           <VideoPreview
-            label="John's human answer"
+            label="John's answer"
             :helper-name="guide.helperName"
             :helper-initial="guide.helperInitial"
             :duration="guide.duration"
@@ -79,7 +79,7 @@ const activeMoment = computed(() => {
             Follow the moments John showed.
           </h2>
           <p class="mt-4 max-w-2xl text-base leading-8 text-hc-muted">
-            Each instruction keeps its timestamp attached, so the written guide points back to the exact motion in the human answer.
+            Each instruction keeps its timestamp attached, so the written guide points back to the exact motion in John's video.
           </p>
 
           <div class="mt-7 grid gap-4">

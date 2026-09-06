@@ -137,7 +137,7 @@ export const openRequests: HelpRequestSummary[] = [
 
 export const reusableGuide: ReusableGuide = {
   id: '1',
-  badge: 'Human-created help',
+  badge: 'Shared by John',
   title: 'How to make a slip knot that stays secure',
   supportingLine: 'John originally recorded this 27-second answer to help Anna.',
   helperName: 'John',
@@ -179,7 +179,7 @@ export const reusableGuide: ReusableGuide = {
 
 export const processingSteps: ProcessingStepData[] = [
   {
-    label: 'Human answer received',
+    label: "John's answer received",
     symbol: '✓',
     status: 'complete',
   },
@@ -222,11 +222,11 @@ export const sponsorMoments = [
   {
     label: 'Making the guide listenable',
     provider: 'ElevenLabs',
-    text: 'Turns the same human help into calm spoken guidance.',
+    text: 'Turns the same answer into calm spoken guidance.',
   },
   {
     label: 'Finding previously donated knowledge',
     provider: 'Snowflake',
-    text: 'Surfaces similar human-created answers when someone searches.',
+    text: 'Surfaces similar shared answers when someone searches.',
   },
 ] as const;

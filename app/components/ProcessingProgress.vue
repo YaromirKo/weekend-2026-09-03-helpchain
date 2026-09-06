@@ -41,7 +41,7 @@ const statusClass = (status: ProcessingStepData['status']) => ({
           {{ heading }}
         </h2>
         <p class="mt-5 max-w-xl text-base leading-8 text-hc-paper-soft sm:text-lg">
-          One human video is expanding into structured reusable knowledge, while {{ helperName }} remains the source.
+          One source video is becoming a guide others can use, while {{ helperName }} remains attached to it.
         </p>
 
         <div class="mt-9 rounded-[8px] border border-white/10 bg-white/[0.04] p-4 sm:p-5">
@@ -54,7 +54,7 @@ const statusClass = (status: ProcessingStepData['status']) => ({
             </svg>
 
             <div class="absolute left-1/2 top-0 w-56 -translate-x-1/2 rounded-[8px] bg-hc-paper p-4 text-hc-ink shadow-hc-soft">
-              <p class="text-xs font-semibold uppercase leading-4 text-hc-muted">Human video</p>
+              <p class="text-xs font-semibold uppercase leading-4 text-hc-muted">Source video</p>
               <div class="mt-3 flex items-center justify-between gap-4">
                 <span class="text-3xl font-semibold leading-none">{{ duration }}</span>
                 <span class="rounded-full bg-hc-emerald px-3 py-1 text-xs font-semibold text-white">{{ helperName }}</span>

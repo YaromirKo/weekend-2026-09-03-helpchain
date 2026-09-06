@@ -37,7 +37,7 @@ defineEmits<{
         <div>
           <StatusBadge tone="emerald" dot>{{ label }}</StatusBadge>
           <h2 class="hc-text-balance mt-4 text-2xl font-semibold leading-tight text-hc-ink sm:text-3xl">
-            Human demonstration first.
+            Start with what John showed.
           </h2>
         </div>
 
@@ -83,7 +83,7 @@ defineEmits<{
         <button
           class="absolute left-1/2 top-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-hc-emerald text-white shadow-hc-button transition duration-200 hover:scale-[1.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-hc-emerald"
           type="button"
-          aria-label="Preview John's human answer"
+          aria-label="Preview John's answer"
         >
           <svg class="ml-1 size-7" viewBox="0 0 32 32" aria-hidden="true">
             <path d="m12 8 13 8-13 8V8Z" fill="currentColor" />

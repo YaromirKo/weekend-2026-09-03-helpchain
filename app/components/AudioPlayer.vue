@@ -14,7 +14,7 @@ const selectedLanguage = ref<(typeof languages)[number]>('English');
           Listen instead
         </h2>
         <p class="mt-3 max-w-md text-base leading-7 text-hc-muted">
-          The same human help in a format that's easier to follow.
+          The same help in a format that's easier to follow.
         </p>
       </div>
 

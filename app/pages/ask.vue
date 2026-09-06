@@ -11,7 +11,7 @@ const selectedCategory = ref<(typeof categories)[number]>('Crafts');
     <section class="hc-container py-12 sm:py-16 lg:py-20">
       <div class="grid gap-10 lg:grid-cols-[0.74fr_1.26fr] lg:items-start">
         <aside class="max-w-xl">
-          <StatusBadge tone="emerald" dot>Ask a human</StatusBadge>
+          <StatusBadge tone="emerald" dot>Ask someone who knows</StatusBadge>
 
           <h1 class="hc-text-balance mt-6 text-5xl font-semibold leading-[0.96] text-hc-ink sm:text-6xl lg:text-7xl">
             What do you need help with?
@@ -46,7 +46,7 @@ const selectedCategory = ref<(typeof categories)[number]>('Crafts');
               <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-hc-amber-soft text-sm font-semibold text-hc-ink">3</div>
               <div>
                 <p class="text-lg font-semibold leading-6 text-hc-ink">Their help keeps going</p>
-                <p class="mt-1 text-sm leading-6 text-hc-muted">AI organizes the human answer into reusable formats.</p>
+                <p class="mt-1 text-sm leading-6 text-hc-muted">HelpChain turns the answer into formats others can follow.</p>
               </div>
             </div>
           </div>
@@ -115,7 +115,7 @@ const selectedCategory = ref<(typeof categories)[number]>('Crafts');
                 Ask for help
               </AppButton>
               <p class="mt-4 max-w-xl text-sm leading-6 text-hc-muted">
-                When someone answers, their demonstration can become reusable human help after it solves the first problem.
+                When someone answers, their demonstration can become reusable help after it solves the first problem.
               </p>
             </div>
           </div>

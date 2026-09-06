@@ -20,7 +20,7 @@ const searchState = ref<SearchState>(props.initialState);
 let discoveryTimer: ReturnType<typeof setTimeout> | undefined;
 
 const isFinding = computed(() => searchState.value === 'searching');
-const hasFoundHumanHelp = computed(() => searchState.value === 'found');
+const hasFoundSharedHelp = computed(() => searchState.value === 'found');
 const hasNoDonatedSolution = computed(() => searchState.value === 'empty');
 
 const matchesPreservedPlantHelp = (query: string) => {
@@ -31,7 +31,7 @@ const matchesPreservedPlantHelp = (query: string) => {
   return signalCount >= 2;
 };
 
-const findHumanHelp = () => {
+const findSharedHelp = () => {
   if (!searchQuery.value.trim() || isFinding.value) {
     return;
   }
@@ -60,8 +60,8 @@ onBeforeUnmount(() => {
   <div id="find-help" class="max-w-3xl">
     <form
       class="rounded-[8px] border border-hc-line bg-hc-paper p-2 shadow-hc-card sm:p-3"
-      aria-label="Search for existing human help"
-      @submit.prevent="findHumanHelp"
+      aria-label="Search for existing shared help"
+      @submit.prevent="findSharedHelp"
     >
       <div class="flex flex-col gap-2 sm:flex-row">
         <label class="sr-only" for="help-search">What do you need help with?</label>
@@ -88,7 +88,7 @@ onBeforeUnmount(() => {
 
     <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <p class="max-w-md text-sm font-medium leading-6 text-hc-muted">
-        Searches donated human demonstrations before asking AI to organize anything.
+        Searches answers people have already shared before creating a new request.
       </p>
       <AppButton to="/ask" variant="secondary" size="sm">
         Ask for Help
@@ -97,7 +97,7 @@ onBeforeUnmount(() => {
 
     <Transition name="hc-discovery" mode="out-in">
       <SearchResultCard
-        v-if="hasFoundHumanHelp"
+        v-if="hasFoundSharedHelp"
         key="found"
         class="mt-8"
         :result="result"
@@ -119,7 +119,7 @@ onBeforeUnmount(() => {
               No donated solution found yet.
             </h2>
             <p class="mt-4 text-base leading-7 text-hc-muted sm:text-lg">
-              Ask the community and help create the first reusable human answer for the next person.
+              Ask the community and help create the first reusable answer for the next person.
             </p>
           </div>
 
@@ -142,7 +142,7 @@ onBeforeUnmount(() => {
             <span class="size-2 rounded-full bg-hc-emerald" />
           </span>
           <div>
-            <p class="text-lg font-semibold leading-6 text-hc-ink">Looking through preserved human help.</p>
+            <p class="text-lg font-semibold leading-6 text-hc-ink">Looking through shared answers.</p>
             <p class="mt-1 text-sm leading-6 text-hc-muted">Searching for a person who already showed a similar fix.</p>
           </div>
         </div>
@@ -155,7 +155,7 @@ onBeforeUnmount(() => {
       >
         <div>
           <p class="text-5xl font-semibold leading-none text-hc-emerald">27s</p>
-          <p class="mt-3 text-lg font-semibold leading-6 text-hc-ink">one human answer</p>
+          <p class="mt-3 text-lg font-semibold leading-6 text-hc-ink">one shared answer</p>
         </div>
         <div class="border-t border-hc-line pt-5 sm:border-l sm:border-t-0 sm:pl-5 sm:pt-0">
           <p class="text-5xl font-semibold leading-none text-hc-emerald">18</p>
