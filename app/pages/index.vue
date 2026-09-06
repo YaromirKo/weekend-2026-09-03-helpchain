@@ -1,10 +1,43 @@
 <script setup lang="ts">
+import { computed, onMounted, ref } from 'vue';
 import {
+  defaultGlobalImpact,
   featuredSearchQuery,
-  openRequests,
-  searchResultGuide,
+  mapHelpRequestToSummary,
   sponsorMoments,
+  type GlobalHelpImpact,
+  type HelpRequest,
+  type HelpRequestSummary,
 } from '~/data/helpchain';
+
+const openHelpRequests = ref<HelpRequestSummary[]>([]);
+const globalImpact = ref<GlobalHelpImpact>(defaultGlobalImpact);
+const isOpenRequestsLoading = ref(true);
+const openRequestsError = ref('');
+
+const hasOpenRequests = computed(() => openHelpRequests.value.length > 0);
+
+onMounted(async () => {
+  const [requestsResult, impactResult] = await Promise.allSettled([
+    $fetch<HelpRequest[]>('/api/help/requests'),
+    $fetch<GlobalHelpImpact>('/api/help/impact'),
+  ]);
+
+  if (requestsResult.status === 'fulfilled') {
+    openHelpRequests.value = requestsResult.value.map(mapHelpRequestToSummary);
+  } else {
+    console.error('Open help requests failed to load', requestsResult.reason);
+    openRequestsError.value = 'Open requests could not be loaded right now.';
+  }
+
+  isOpenRequestsLoading.value = false;
+
+  if (impactResult.status === 'fulfilled') {
+    globalImpact.value = impactResult.value;
+  } else {
+    console.error('Global impact failed to load', impactResult.reason);
+  }
+});
 </script>
 
 <template>
@@ -23,7 +56,13 @@ import {
           </p>
 
           <div class="mt-10">
-            <HeroSearch :initial-query="featuredSearchQuery" :result="searchResultGuide" initial-state="found" />
+            <HeroSearch
+              :initial-query="featuredSearchQuery"
+              :people-helped="globalImpact.peopleHelped"
+              :human-solutions="globalImpact.humanSolutions"
+              :languages-reached="globalImpact.languagesReached"
+              auto-search
+            />
           </div>
         </div>
 
@@ -73,15 +112,15 @@ import {
               <div class="absolute bottom-5 left-5 right-5 z-10 rounded-[4px] border border-hc-line bg-hc-paper/95 p-4 shadow-hc-soft">
                 <div class="grid grid-cols-3 gap-3 text-center">
                   <div>
-                    <p class="text-3xl font-semibold leading-none text-hc-emerald">1</p>
+                    <p class="text-3xl font-semibold leading-none text-hc-emerald">{{ globalImpact.humanSolutions }}</p>
                     <p class="mt-1 text-[0.68rem] font-semibold uppercase leading-4 text-hc-muted">answer</p>
                   </div>
                   <div>
-                    <p class="text-3xl font-semibold leading-none text-hc-emerald">18</p>
+                    <p class="text-3xl font-semibold leading-none text-hc-emerald">{{ globalImpact.peopleHelped }}</p>
                     <p class="mt-1 text-[0.68rem] font-semibold uppercase leading-4 text-hc-muted">helped</p>
                   </div>
                   <div>
-                    <p class="text-3xl font-semibold leading-none text-hc-emerald">3</p>
+                    <p class="text-3xl font-semibold leading-none text-hc-emerald">{{ globalImpact.languagesReached }}</p>
                     <p class="mt-1 text-[0.68rem] font-semibold uppercase leading-4 text-hc-muted">languages</p>
                   </div>
                 </div>
@@ -133,8 +172,32 @@ import {
             </p>
           </div>
 
-          <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            <HelpRequestCard v-for="request in openRequests" :key="request.id" :request="request" />
+          <div v-if="isOpenRequestsLoading" class="hc-card p-6" role="status" aria-live="polite">
+            <StatusBadge tone="emerald">Loading requests</StatusBadge>
+            <p class="mt-4 text-base font-semibold leading-7 text-hc-muted">
+              Checking who needs human help.
+            </p>
+          </div>
+
+          <div v-else-if="openRequestsError" class="hc-card p-6" role="status" aria-live="polite">
+            <StatusBadge tone="coral">Requests unavailable</StatusBadge>
+            <p class="mt-4 text-base font-semibold leading-7 text-hc-muted">
+              {{ openRequestsError }}
+            </p>
+          </div>
+
+          <div v-else-if="hasOpenRequests" class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <HelpRequestCard v-for="request in openHelpRequests" :key="request.id" :request="request" />
+          </div>
+
+          <div v-else class="hc-card p-6">
+            <StatusBadge tone="emerald">All caught up</StatusBadge>
+            <h3 class="mt-4 text-2xl font-semibold leading-tight text-hc-ink">
+              No open requests right now.
+            </h3>
+            <p class="mt-3 text-base leading-7 text-hc-muted">
+              When someone asks for help, their request will appear here.
+            </p>
           </div>
         </div>
       </div>

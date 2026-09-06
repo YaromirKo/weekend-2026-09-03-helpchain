@@ -10,7 +10,7 @@ export default defineEventHandler((event) => {
       snowflake: Boolean(
         config.snowflake?.account &&
         config.snowflake?.username &&
-        config.snowflake?.password
+        (config.snowflake?.password || config.snowflake?.token)
       ),
     },
   }

@@ -29,10 +29,11 @@ export default defineNuxtConfig({
       account: "",
       username: "",
       password: "",
+      token: "",
       warehouse: "HELPCHAIN_WH",
       database: "HELPCHAIN",
       schema: "PUBLIC",
-      role: "HELPCHAIN_ROLE",
+      role: "",
     },
   },
 

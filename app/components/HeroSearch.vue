@@ -1,58 +1,89 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, watch } from 'vue';
-import type { SearchResultGuide } from '~/data/helpchain';
+import { computed, onMounted, ref, watch } from 'vue';
+import {
+  mapSearchResultToGuide,
+  type HelpSearchResult,
+  type SearchResultGuide,
+} from '~/data/helpchain';
 
-type SearchState = 'idle' | 'searching' | 'found' | 'empty';
+type SearchState = 'idle' | 'searching' | 'found' | 'empty' | 'error';
 
 const props = withDefaults(
   defineProps<{
     initialQuery: string;
-    result: SearchResultGuide;
     initialState?: SearchState;
+    autoSearch?: boolean;
+    peopleHelped?: number;
+    humanSolutions?: number;
+    languagesReached?: number;
   }>(),
   {
-    initialState: 'found',
+    initialState: 'idle',
+    autoSearch: false,
+    peopleHelped: 18,
+    humanSolutions: 1,
+    languagesReached: 3,
   },
 );
 
 const searchQuery = ref(props.initialQuery);
 const searchState = ref<SearchState>(props.initialState);
-let discoveryTimer: ReturnType<typeof setTimeout> | undefined;
+const searchError = ref('');
+const currentResult = ref<SearchResultGuide | null>(null);
 
 const isFinding = computed(() => searchState.value === 'searching');
 const hasFoundSharedHelp = computed(() => searchState.value === 'found');
 const hasNoDonatedSolution = computed(() => searchState.value === 'empty');
+const hasSearchError = computed(() => searchState.value === 'error');
+const canSearch = computed(() => Boolean(searchQuery.value.trim()) && !isFinding.value);
 
-const matchesPreservedPlantHelp = (query: string) => {
-  const normalizedQuery = query.toLowerCase();
-  const plantSignals = ['houseplant', 'plant', 'pothos', 'yellow', 'leaves', 'dirt', 'soil', 'water'];
-  const signalCount = plantSignals.filter((signal) => normalizedQuery.includes(signal)).length;
+const findSharedHelp = async () => {
+  const submittedQuery = searchQuery.value.trim();
 
-  return signalCount >= 2;
-};
-
-const findSharedHelp = () => {
-  if (!searchQuery.value.trim() || isFinding.value) {
+  if (!submittedQuery || isFinding.value) {
     return;
   }
 
-  const submittedQuery = searchQuery.value;
   searchState.value = 'searching';
-  clearTimeout(discoveryTimer);
+  searchError.value = '';
+  currentResult.value = null;
 
-  discoveryTimer = setTimeout(() => {
-    searchState.value = matchesPreservedPlantHelp(submittedQuery) ? 'found' : 'empty';
-  }, 520);
+  try {
+    const results = await $fetch<HelpSearchResult[]>('/api/help/search', {
+      method: 'POST',
+      body: {
+        query: submittedQuery,
+      },
+    });
+
+    if (!results.length) {
+      searchState.value = 'empty';
+      return;
+    }
+
+    currentResult.value = {
+      ...mapSearchResultToGuide(results[0]),
+      query: submittedQuery,
+    };
+    searchState.value = 'found';
+  } catch (error) {
+    console.error('Help search failed', error);
+    searchError.value = 'We could not search shared help right now. You can still ask a human for help.';
+    searchState.value = 'error';
+  }
 };
 
 watch(searchQuery, () => {
-  if (searchState.value === 'found' || searchState.value === 'empty') {
+  if (searchState.value === 'found' || searchState.value === 'empty' || searchState.value === 'error') {
     searchState.value = 'idle';
+    searchError.value = '';
   }
 });
 
-onBeforeUnmount(() => {
-  clearTimeout(discoveryTimer);
+onMounted(() => {
+  if (props.autoSearch) {
+    findSharedHelp();
+  }
 });
 </script>
 
@@ -77,7 +108,7 @@ onBeforeUnmount(() => {
           variant="primary"
           size="lg"
           type="submit"
-          :disabled="isFinding"
+          :disabled="!canSearch"
           :aria-busy="isFinding"
           class="shrink-0"
         >
@@ -97,10 +128,10 @@ onBeforeUnmount(() => {
 
     <Transition name="hc-discovery" mode="out-in">
       <SearchResultCard
-        v-if="hasFoundSharedHelp"
+        v-if="hasFoundSharedHelp && currentResult"
         key="found"
         class="mt-8"
-        :result="result"
+        :result="currentResult"
         role="status"
         aria-live="polite"
       />
@@ -120,6 +151,30 @@ onBeforeUnmount(() => {
             </h2>
             <p class="mt-4 text-base leading-7 text-hc-muted sm:text-lg">
               Ask the community and help create the first reusable answer for the next person.
+            </p>
+          </div>
+
+          <AppButton to="/ask" size="md">
+            Ask for help
+          </AppButton>
+        </div>
+      </div>
+
+      <div
+        v-else-if="hasSearchError"
+        key="error"
+        class="hc-card mt-8 p-5 sm:p-7"
+        role="status"
+        aria-live="polite"
+      >
+        <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+          <div class="max-w-xl">
+            <StatusBadge tone="coral">Search unavailable</StatusBadge>
+            <h2 class="hc-text-balance mt-5 text-2xl font-semibold leading-tight text-hc-ink sm:text-3xl">
+              Shared help could not be searched.
+            </h2>
+            <p class="mt-4 text-base leading-7 text-hc-muted sm:text-lg">
+              {{ searchError }}
             </p>
           </div>
 
@@ -154,15 +209,15 @@ onBeforeUnmount(() => {
         class="mt-8 grid gap-5 border-y border-hc-line py-7 text-hc-muted sm:grid-cols-3"
       >
         <div>
-          <p class="text-5xl font-semibold leading-none text-hc-emerald">27s</p>
-          <p class="mt-3 text-lg font-semibold leading-6 text-hc-ink">one shared answer</p>
+          <p class="text-5xl font-semibold leading-none text-hc-emerald">{{ props.humanSolutions }}</p>
+          <p class="mt-3 text-lg font-semibold leading-6 text-hc-ink">human solutions</p>
         </div>
         <div class="border-t border-hc-line pt-5 sm:border-l sm:border-t-0 sm:pl-5 sm:pt-0">
-          <p class="text-5xl font-semibold leading-none text-hc-emerald">18</p>
+          <p class="text-5xl font-semibold leading-none text-hc-emerald">{{ props.peopleHelped }}</p>
           <p class="mt-3 text-lg font-semibold leading-6 text-hc-ink">people helped later</p>
         </div>
         <div class="border-t border-hc-line pt-5 sm:border-l sm:border-t-0 sm:pl-5 sm:pt-0">
-          <p class="text-5xl font-semibold leading-none text-hc-emerald">3</p>
+          <p class="text-5xl font-semibold leading-none text-hc-emerald">{{ props.languagesReached }}</p>
           <p class="mt-3 text-lg font-semibold leading-6 text-hc-ink">languages reached</p>
         </div>
       </div>

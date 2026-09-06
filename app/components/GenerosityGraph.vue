@@ -1,19 +1,45 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
+type Recipient = {
+  anonymousId: string;
+  displayName?: string;
+};
+
 const props = withDefaults(
   defineProps<{
     helperName: string;
     helpedCount: number;
     languages: number;
+    duration?: string;
+    recipients?: Recipient[];
     showNewNode?: boolean;
   }>(),
   {
+    duration: 'one answer',
+    recipients: () => [],
     showNewNode: false,
   },
 );
 
-const displayCount = computed(() => props.helpedCount + (props.showNewNode ? 1 : 0));
+const recipientPositions = [
+  'left-[20%] top-[58%]',
+  'left-1/2 top-[61%]',
+  'left-[80%] top-[58%]',
+];
+const displayCount = computed(() => props.helpedCount);
+const helperInitial = computed(() => props.helperName.charAt(0).toUpperCase() || 'H');
+const visibleRecipients = computed(() => props.recipients.slice(0, 3).map((recipient, index) => {
+  const displayName = recipient.displayName || `Person ${index + 1}`;
+
+  return {
+    ...recipient,
+    displayName,
+    initial: displayName.charAt(0).toUpperCase() || 'P',
+    position: recipientPositions[index],
+  };
+}));
+const additionalCount = computed(() => Math.max(0, displayCount.value - visibleRecipients.value.length - (props.showNewNode ? 1 : 0)));
 </script>
 
 <template>
@@ -22,10 +48,10 @@ const displayCount = computed(() => props.helpedCount + (props.showNewNode ? 1 :
       <div class="border-b border-hc-line p-5 sm:p-8 lg:border-b-0 lg:border-r">
         <StatusBadge tone="emerald" dot>Generosity graph</StatusBadge>
         <h2 class="hc-text-balance mt-5 text-4xl font-semibold leading-tight text-hc-ink sm:text-5xl">
-          One answer. Eighteen people.
+          One answer. {{ displayCount }} people.
         </h2>
         <p class="mt-5 max-w-md text-base leading-8 text-hc-muted sm:text-lg">
-          How {{ helperName }}'s 27 seconds of help kept moving.
+          How {{ helperName }}'s {{ duration }} of help kept moving.
         </p>
 
         <div class="mt-8 grid grid-cols-1 gap-3 text-center sm:grid-cols-3 lg:grid-cols-1 lg:text-left xl:grid-cols-3 xl:text-center">
@@ -54,7 +80,7 @@ const displayCount = computed(() => props.helpedCount + (props.showNewNode ? 1 :
 
       <div class="relative min-h-[31rem] bg-hc-paper-soft p-5 sm:p-8">
         <div class="hidden h-full min-h-[27rem] sm:block">
-          <svg class="absolute inset-0 h-full w-full" viewBox="0 0 620 500" role="img" aria-label="John's answer reaching Anna, Carlos, Mei, and more people">
+          <svg class="absolute inset-0 h-full w-full" viewBox="0 0 620 500" role="img" :aria-label="`${helperName}'s answer reaching people`">
             <path class="hc-line-draw" d="M310 94 C234 150 178 213 132 302" fill="none" stroke="#cbbba8" stroke-width="3" stroke-linecap="round" />
             <path class="hc-line-draw hc-delay-1" d="M310 94 C308 172 306 236 304 315" fill="none" stroke="#cbbba8" stroke-width="3" stroke-linecap="round" />
             <path class="hc-line-draw hc-delay-2" d="M310 94 C386 150 442 213 488 302" fill="none" stroke="#cbbba8" stroke-width="3" stroke-linecap="round" />
@@ -65,27 +91,24 @@ const displayCount = computed(() => props.helpedCount + (props.showNewNode ? 1 :
 
           <div class="absolute left-1/2 top-12 z-10 -translate-x-1/2 text-center">
             <div class="mx-auto flex size-20 items-center justify-center rounded-full bg-hc-emerald text-3xl font-semibold text-white shadow-hc-button">
-              J
+              {{ helperInitial }}
             </div>
             <p class="mt-3 text-sm font-semibold uppercase leading-5 text-hc-ink">{{ helperName }}</p>
             <p class="text-xs font-semibold leading-4 text-hc-muted">original helper</p>
           </div>
 
-          <div class="absolute left-[20%] top-[58%] z-10 -translate-x-1/2 -translate-y-1/2 text-center">
-            <div class="hc-node mx-auto">A</div>
-            <p class="mt-2 text-sm font-semibold text-hc-ink">Anna</p>
-          </div>
-          <div class="absolute left-1/2 top-[61%] z-10 -translate-x-1/2 -translate-y-1/2 text-center">
-            <div class="hc-node mx-auto">C</div>
-            <p class="mt-2 text-sm font-semibold text-hc-ink">Carlos</p>
-          </div>
-          <div class="absolute left-[80%] top-[58%] z-10 -translate-x-1/2 -translate-y-1/2 text-center">
-            <div class="hc-node mx-auto">M</div>
-            <p class="mt-2 text-sm font-semibold text-hc-ink">Mei</p>
+          <div
+            v-for="recipient in visibleRecipients"
+            :key="recipient.anonymousId"
+            class="absolute z-10 -translate-x-1/2 -translate-y-1/2 text-center"
+            :class="recipient.position"
+          >
+            <div class="hc-node mx-auto">{{ recipient.initial }}</div>
+            <p class="mt-2 text-sm font-semibold text-hc-ink">{{ recipient.displayName }}</p>
           </div>
 
-          <div class="absolute bottom-12 left-1/2 z-10 -translate-x-1/2 rounded-[4px] border border-hc-line bg-hc-paper px-5 py-3 text-center shadow-hc-soft">
-            <p class="text-sm font-semibold leading-5 text-hc-ink">+15 more people helped</p>
+          <div v-if="additionalCount > 0" class="absolute bottom-12 left-1/2 z-10 -translate-x-1/2 rounded-[4px] border border-hc-line bg-hc-paper px-5 py-3 text-center shadow-hc-soft">
+            <p class="text-sm font-semibold leading-5 text-hc-ink">+{{ additionalCount }} more people helped</p>
           </div>
 
           <Transition name="hc-node-pop">
@@ -98,29 +121,25 @@ const displayCount = computed(() => props.helpedCount + (props.showNewNode ? 1 :
 
         <div class="grid gap-4 sm:hidden">
           <div class="flex items-center gap-4 rounded-[4px] bg-hc-paper p-4">
-            <div class="flex size-12 items-center justify-center rounded-full bg-hc-emerald text-lg font-semibold text-white">J</div>
+            <div class="flex size-12 items-center justify-center rounded-full bg-hc-emerald text-lg font-semibold text-white">{{ helperInitial }}</div>
             <div>
-              <p class="text-sm font-semibold uppercase leading-5 text-hc-muted">John</p>
+              <p class="text-sm font-semibold uppercase leading-5 text-hc-muted">{{ helperName }}</p>
               <p class="text-base font-semibold leading-6 text-hc-ink">original helper</p>
             </div>
           </div>
           <div class="ml-6 h-8 w-px bg-hc-line-strong" />
-          <div class="grid grid-cols-3 gap-2 text-center">
-            <div class="rounded-[4px] bg-hc-paper p-3">
-              <div class="hc-node mx-auto">A</div>
-              <p class="mt-2 text-xs font-semibold text-hc-ink">Anna</p>
-            </div>
-            <div class="rounded-[4px] bg-hc-paper p-3">
-              <div class="hc-node mx-auto">C</div>
-              <p class="mt-2 text-xs font-semibold text-hc-ink">Carlos</p>
-            </div>
-            <div class="rounded-[4px] bg-hc-paper p-3">
-              <div class="hc-node mx-auto">M</div>
-              <p class="mt-2 text-xs font-semibold text-hc-ink">Mei</p>
+          <div v-if="visibleRecipients.length" class="grid grid-cols-3 gap-2 text-center">
+            <div
+              v-for="recipient in visibleRecipients"
+              :key="recipient.anonymousId"
+              class="rounded-[4px] bg-hc-paper p-3"
+            >
+              <div class="hc-node mx-auto">{{ recipient.initial }}</div>
+              <p class="mt-2 text-xs font-semibold text-hc-ink">{{ recipient.displayName }}</p>
             </div>
           </div>
-          <p class="rounded-[4px] border border-hc-line bg-hc-paper px-4 py-3 text-center text-sm font-semibold text-hc-ink">
-            +15 more people helped
+          <p v-if="additionalCount > 0" class="rounded-[4px] border border-hc-line bg-hc-paper px-4 py-3 text-center text-sm font-semibold text-hc-ink">
+            +{{ additionalCount }} more people helped
           </p>
           <Transition name="hc-node-pop">
             <p v-if="showNewNode" class="rounded-[4px] bg-hc-emerald px-4 py-3 text-center text-sm font-semibold text-white">

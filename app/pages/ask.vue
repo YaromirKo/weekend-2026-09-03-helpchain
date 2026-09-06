@@ -1,9 +1,50 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { openRequest } from '~/data/helpchain';
+import { computed, reactive, ref } from 'vue';
+import { openRequest, type HelpRequest } from '~/data/helpchain';
 
 const categories = ['Crafts', 'Plants', 'Repairs', 'Cooking', 'Technology', 'Other'] as const;
 const selectedCategory = ref<(typeof categories)[number]>('Crafts');
+const isSubmitting = ref(false);
+const submitError = ref('');
+const form = reactive({
+  title: '',
+  description: '',
+  askedBy: '',
+});
+
+const canSubmit = computed(() => (
+  Boolean(form.title.trim()) &&
+  Boolean(form.description.trim()) &&
+  !isSubmitting.value
+));
+
+const submitHelpRequest = async () => {
+  if (!canSubmit.value) {
+    return;
+  }
+
+  isSubmitting.value = true;
+  submitError.value = '';
+
+  try {
+    const request = await $fetch<HelpRequest>('/api/help/requests', {
+      method: 'POST',
+      body: {
+        title: form.title.trim(),
+        description: form.description.trim(),
+        category: selectedCategory.value,
+        askedBy: form.askedBy.trim() || undefined,
+      },
+    });
+
+    await navigateTo(`/request/${request.id}`);
+  } catch (error) {
+    console.error('Help request creation failed', error);
+    submitError.value = 'We could not create this request right now. Please try again.';
+  } finally {
+    isSubmitting.value = false;
+  }
+};
 </script>
 
 <template>
@@ -26,7 +67,7 @@ const selectedCategory = ref<(typeof categories)[number]>('Crafts');
               <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-hc-emerald text-sm font-semibold text-white">1</div>
               <div>
                 <p class="text-lg font-semibold leading-6 text-hc-ink">You ask clearly</p>
-                <p class="mt-1 text-sm leading-6 text-hc-muted">A title, a little context, and a photo if it helps.</p>
+                <p class="mt-1 text-sm leading-6 text-hc-muted">A title, a category, and a little context.</p>
               </div>
             </div>
 
@@ -56,7 +97,7 @@ const selectedCategory = ref<(typeof categories)[number]>('Crafts');
           </div>
         </aside>
 
-        <form class="hc-card p-5 sm:p-7 lg:p-8" aria-label="Ask for help" @submit.prevent>
+        <form class="hc-card p-5 sm:p-7 lg:p-8" aria-label="Ask for help" @submit.prevent="submitHelpRequest">
           <div class="grid gap-6">
             <div>
               <label class="text-sm font-semibold leading-6 text-hc-ink" for="problem-title">
@@ -64,9 +105,12 @@ const selectedCategory = ref<(typeof categories)[number]>('Crafts');
               </label>
               <input
                 id="problem-title"
+                v-model="form.title"
                 class="hc-input mt-2"
                 type="text"
+                maxlength="150"
                 placeholder="How do I stop this knot from slipping?"
+                :disabled="isSubmitting"
               />
             </div>
 
@@ -76,33 +120,35 @@ const selectedCategory = ref<(typeof categories)[number]>('Crafts');
               </label>
               <textarea
                 id="problem-description"
+                v-model="form.description"
                 class="mt-2 min-h-40 w-full resize-y rounded-[4px] border border-hc-line bg-hc-paper px-5 py-4 text-base leading-7 text-hc-ink shadow-sm outline-none transition placeholder:text-hc-soft focus:border-hc-emerald focus:ring-4 focus:ring-hc-emerald-soft"
+                maxlength="2000"
                 placeholder="Tell us what you tried and where you're stuck..."
+                :disabled="isSubmitting"
               ></textarea>
             </div>
 
             <div>
-              <span class="text-sm font-semibold leading-6 text-hc-ink">Optional image</span>
-              <label
-                class="mt-2 flex cursor-pointer flex-col items-center justify-center rounded-[4px] border border-dashed border-hc-line-strong bg-hc-paper-soft px-5 py-8 text-center transition hover:border-hc-emerald hover:bg-hc-emerald-wash/60"
-                for="problem-photo"
-              >
-                <input id="problem-photo" class="sr-only" type="file" accept="image/*" />
-                <span class="flex size-14 items-center justify-center rounded-full bg-hc-paper text-hc-emerald shadow-hc-soft">
-                  <svg class="size-7" viewBox="0 0 32 32" aria-hidden="true">
-                    <path d="M8 23h16M16 7v13M10 13l6-6 6 6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                  </svg>
-                </span>
-                <span class="mt-4 text-lg font-semibold leading-6 text-hc-ink">Add a photo</span>
-                <span class="mt-2 max-w-sm text-sm leading-6 text-hc-muted">A photo can make the problem easier to understand.</span>
+              <label class="text-sm font-semibold leading-6 text-hc-ink" for="asked-by">
+                Your name
               </label>
+              <input
+                id="asked-by"
+                v-model="form.askedBy"
+                class="hc-input mt-2"
+                type="text"
+                maxlength="80"
+                placeholder="Anna"
+                autocomplete="name"
+                :disabled="isSubmitting"
+              />
             </div>
 
             <fieldset>
               <legend class="text-sm font-semibold leading-6 text-hc-ink">Category</legend>
               <div class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
                 <label v-for="category in categories" :key="category" class="cursor-pointer">
-                  <input v-model="selectedCategory" class="peer sr-only" type="radio" name="category" :value="category" />
+                  <input v-model="selectedCategory" class="peer sr-only" type="radio" name="category" :value="category" :disabled="isSubmitting" />
                   <span class="flex min-h-11 items-center justify-center rounded-[4px] border border-hc-line bg-hc-paper-soft px-3 text-sm font-semibold text-hc-muted transition peer-checked:border-hc-emerald peer-checked:bg-hc-emerald-wash peer-checked:text-hc-emerald peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-hc-emerald">
                     {{ category }}
                   </span>
@@ -111,9 +157,12 @@ const selectedCategory = ref<(typeof categories)[number]>('Crafts');
             </fieldset>
 
             <div class="border-t border-hc-line pt-6">
-              <AppButton size="lg" type="submit" class="w-full sm:w-auto">
-                Ask for help
+              <AppButton size="lg" type="submit" class="w-full sm:w-auto" :disabled="!canSubmit" :aria-busy="isSubmitting">
+                {{ isSubmitting ? 'Creating request...' : 'Ask for help' }}
               </AppButton>
+              <p v-if="submitError" class="mt-4 max-w-xl text-sm font-semibold leading-6 text-hc-coral" role="alert">
+                {{ submitError }}
+              </p>
               <p class="mt-4 max-w-xl text-sm leading-6 text-hc-muted">
                 When someone answers, their demonstration can become reusable help after it solves the first problem.
               </p>

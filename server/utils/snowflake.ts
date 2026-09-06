@@ -16,6 +16,9 @@ import { apiError, withTimeout } from './errors';
 
 let connectionPromise: Promise<snowflake.Connection> | undefined;
 
+(snowflake as unknown as { configure?: (options: { logLevel: 'ERROR' }) => void })
+  .configure?.({ logLevel: 'ERROR' });
+
 type SnowflakeRow = Record<string, unknown>;
 
 export async function executeSnowflake<T extends SnowflakeRow = SnowflakeRow>(
@@ -53,6 +56,10 @@ export async function executeSnowflake<T extends SnowflakeRow = SnowflakeRow>(
   } catch (error) {
     if (error instanceof Error && error.name === 'ApiRouteError') {
       throw error;
+    }
+
+    if (shouldResetSnowflakeConnection(error)) {
+      connectionPromise = undefined;
     }
 
     console.error('Snowflake query failed', sanitizeSnowflakeError(error));
@@ -356,13 +363,14 @@ function getSnowflakeConnection(event: H3Event) {
     account: String(config.snowflake?.account || ''),
     username: String(config.snowflake?.username || ''),
     password: String(config.snowflake?.password || ''),
+    token: String(config.snowflake?.token || ''),
     warehouse: String(config.snowflake?.warehouse || 'HELPCHAIN_WH'),
     database: String(config.snowflake?.database || 'HELPCHAIN'),
     schema: String(config.snowflake?.schema || 'PUBLIC'),
-    role: String(config.snowflake?.role || 'HELPCHAIN_ROLE'),
+    role: String(config.snowflake?.role || ''),
   };
 
-  if (!snowflakeConfig.account || !snowflakeConfig.username || !snowflakeConfig.password) {
+  if (!snowflakeConfig.account || !snowflakeConfig.username || (!snowflakeConfig.password && !snowflakeConfig.token)) {
     throw apiError(503, 'SNOWFLAKE_NOT_CONFIGURED', 'Snowflake is not configured.');
   }
 
@@ -370,11 +378,18 @@ function getSnowflakeConnection(event: H3Event) {
     .createConnection({
       account: snowflakeConfig.account,
       username: snowflakeConfig.username,
-      password: snowflakeConfig.password,
+      ...(snowflakeConfig.token
+        ? {
+            authenticator: 'PROGRAMMATIC_ACCESS_TOKEN',
+            token: snowflakeConfig.token,
+          }
+        : {
+            password: snowflakeConfig.password,
+          }),
       warehouse: snowflakeConfig.warehouse,
       database: snowflakeConfig.database,
       schema: snowflakeConfig.schema,
-      role: snowflakeConfig.role,
+      ...(snowflakeConfig.role ? { role: snowflakeConfig.role } : {}),
       timeout: 15_000,
     })
     .connectAsync()
@@ -384,6 +399,22 @@ function getSnowflakeConnection(event: H3Event) {
     });
 
   return connectionPromise;
+}
+
+function shouldResetSnowflakeConnection(error: unknown) {
+  if (!error || typeof error !== 'object') {
+    return false;
+  }
+
+  const snowflakeError = error as { code?: unknown; sqlState?: unknown; message?: unknown };
+  const message = stringValue(snowflakeError.message).toLowerCase();
+
+  return (
+    snowflakeError.code === 407002 ||
+    snowflakeError.sqlState === '08003' ||
+    message.includes('terminated connection') ||
+    message.includes('connection failed')
+  );
 }
 
 function buildSearchableText(request: HelpRequest, guide: ProcessedGuideContent) {

@@ -37,7 +37,7 @@ defineEmits<{
         <div>
           <StatusBadge tone="emerald" dot>{{ label }}</StatusBadge>
           <h2 class="hc-text-balance mt-4 text-2xl font-semibold leading-tight text-hc-ink sm:text-3xl">
-            Start with what John showed.
+            Start with what {{ helperName }} showed.
           </h2>
         </div>
 
@@ -53,7 +53,7 @@ defineEmits<{
 
     <div class="bg-[#e9f1ec] p-3 sm:p-4">
       <div class="relative aspect-video overflow-hidden rounded-[4px] border border-hc-emerald/15 bg-hc-paper shadow-inner">
-        <svg class="absolute inset-0 h-full w-full" viewBox="0 0 760 430" role="img" aria-label="John demonstrating a slip knot with yarn on a table">
+        <svg class="absolute inset-0 h-full w-full" viewBox="0 0 760 430" role="img" :aria-label="`${helperName} demonstrating a fix`">
           <rect x="70" y="64" width="620" height="300" rx="22" fill="#fffdf8" opacity="0.72" />
           <path d="M114 287c108-112 258-108 316-16 45 72-28 145-111 90-77-51-9-168 105-114" fill="none" stroke="#0f5b49" stroke-linecap="round" stroke-width="13" />
           <path d="M147 319c-45 20-82 31-119 34" fill="none" stroke="#cbbba8" stroke-linecap="round" stroke-width="10" />
@@ -83,7 +83,7 @@ defineEmits<{
         <button
           class="absolute left-1/2 top-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-hc-emerald text-white shadow-hc-button transition duration-200 hover:scale-[1.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-hc-emerald"
           type="button"
-          aria-label="Preview John's answer"
+          :aria-label="`Preview ${helperName}'s answer`"
         >
           <svg class="ml-1 size-7" viewBox="0 0 32 32" aria-hidden="true">
             <path d="m12 8 13 8-13 8V8Z" fill="currentColor" />

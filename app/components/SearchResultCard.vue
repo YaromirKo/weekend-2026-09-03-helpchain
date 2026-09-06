@@ -46,7 +46,7 @@ defineProps<{
 
             <dl class="grid gap-2 text-center sm:grid-cols-3">
               <div class="rounded-[4px] bg-hc-paper px-4 py-4 shadow-hc-soft">
-                <dt class="text-xs font-semibold uppercase leading-4 text-hc-muted">answer</dt>
+                <dt class="text-xs font-semibold uppercase leading-4 text-hc-muted">source</dt>
                 <dd class="mt-2 text-3xl font-semibold leading-none text-hc-emerald">{{ result.duration }}</dd>
               </div>
               <div class="rounded-[4px] bg-hc-paper px-4 py-4 shadow-hc-soft">
@@ -77,7 +77,7 @@ defineProps<{
             <div class="pt-1">
               <div class="flex max-w-[20rem] flex-col items-start gap-2">
                 <AppButton :to="result.routePath" size="lg" aria-describedby="search-result-guide-hint" class="w-full sm:w-auto">
-                  See how John helped
+                  See how {{ result.helperName }} helped
                 </AppButton>
                 <p id="search-result-guide-hint" class="max-w-[17rem] pl-1 text-xs font-medium leading-5 text-hc-soft">
                   HelpChain made the answer searchable, step-by-step, and listenable.

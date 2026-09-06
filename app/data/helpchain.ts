@@ -1,3 +1,12 @@
+import type {
+  GlobalHelpImpact,
+  GuideStep,
+  HelpGuide,
+  HelpImpact,
+  HelpRequest,
+  HelpSearchResult,
+} from '../../shared/types/help';
+
 export type HelpRequestSummary = {
   id: string;
   routePath: string;
@@ -30,6 +39,7 @@ export type ProcessingStepData = {
 };
 
 export type SearchResultGuide = {
+  guideId: string;
   title: string;
   helperName: string;
   helperInitial: string;
@@ -57,12 +67,25 @@ export type ReusableGuide = {
   matchText: string;
   materials: string[];
   steps: GuideStepData[];
+  recipients: HelpImpact['recipients'];
 };
+
+export type {
+  GlobalHelpImpact,
+  HelpGuide,
+  HelpImpact,
+  HelpRequest,
+  HelpSearchResult,
+};
+
+export const seededGuideId = 'guide-pothos-overwatered';
+export const seededOpenRequestId = 'request-slip-knot';
 
 export const featuredSearchQuery =
   'My houseplant leaves keep turning yellow and the dirt never dries.';
 
 export const searchResultGuide: SearchResultGuide = {
+  guideId: seededGuideId,
   title: 'Recovering an overwatered pothos',
   helperName: 'John',
   helperInitial: 'J',
@@ -73,12 +96,12 @@ export const searchResultGuide: SearchResultGuide = {
   query: featuredSearchQuery,
   summary:
     'John showed how he checks the roots, lets the soil dry, and changes the watering rhythm before the plant declines further.',
-  routePath: '/guide/1',
+  routePath: `/guide/${seededGuideId}`,
 };
 
 export const openRequest: HelpRequestSummary = {
-  id: '1',
-  routePath: '/request/1',
+  id: seededOpenRequestId,
+  routePath: `/request/${seededOpenRequestId}`,
   question: 'How do I make a slip knot without it collapsing?',
   askedBy: 'Anna',
   category: 'Crafts',
@@ -99,7 +122,7 @@ export const openRequests: HelpRequestSummary[] = [
   openRequest,
   {
     id: 'origami-corner',
-    routePath: '/request/1',
+    routePath: `/request/${seededOpenRequestId}`,
     question: 'How do I fold an origami corner so both edges line up?',
     askedBy: 'Niko',
     category: 'Paper',
@@ -117,7 +140,7 @@ export const openRequests: HelpRequestSummary[] = [
   },
   {
     id: 'shirt-button',
-    routePath: '/request/1',
+    routePath: `/request/${seededOpenRequestId}`,
     question: 'How do I fix a loose shirt button before it falls off?',
     askedBy: 'Ana',
     category: 'Sewing',
@@ -136,7 +159,7 @@ export const openRequests: HelpRequestSummary[] = [
 ];
 
 export const reusableGuide: ReusableGuide = {
-  id: '1',
+  id: seededGuideId,
   badge: 'Shared by John',
   title: 'How to make a slip knot that stays secure',
   supportingLine: 'John originally recorded this 27-second answer to help Anna.',
@@ -149,6 +172,11 @@ export const reusableGuide: ReusableGuide = {
   matchPercent: 92,
   matchText: 'Someone had already helped with something similar.',
   materials: ['Yarn'],
+  recipients: [
+    { anonymousId: 'seed-person-001', displayName: 'Anna' },
+    { anonymousId: 'seed-person-002', displayName: 'Carlos' },
+    { anonymousId: 'seed-person-003', displayName: 'Mei' },
+  ],
   steps: [
     {
       id: 'first-loop',
@@ -177,9 +205,150 @@ export const reusableGuide: ReusableGuide = {
   ],
 };
 
+const requestVisuals: Record<string, Pick<HelpRequestSummary, 'iconPath' | 'illustrationPaths' | 'accentColor' | 'washColor' | 'helperNudge'>> = {
+  crafts: {
+    iconPath: openRequest.iconPath,
+    illustrationPaths: openRequest.illustrationPaths,
+    accentColor: openRequest.accentColor,
+    washColor: openRequest.washColor,
+    helperNudge: 'A close-up hand demonstration would solve this quickly.',
+  },
+  plants: {
+    iconPath: 'M10 25c9-1 13-8 12-18M16 25c-5-7-4-14 4-19M18 17c-6 0-10-3-12-8M19 15c7 1 11-2 13-8',
+    illustrationPaths: [
+      'M116 176c-3-44 2-86 18-126',
+      'M126 108c-32-12-52-34-62-66 34 5 57 24 68 57',
+      'M136 96c32-20 63-25 94-15-18 29-47 42-86 38',
+    ],
+    accentColor: '#0f5b49',
+    washColor: '#e7f4ee',
+    helperNudge: 'A short visual check can show what is wrong.',
+  },
+  repairs: {
+    iconPath: 'M9 23 23 9M19 7l6 6M7 25l6-1 12-12-5-5L8 19l-1 6Z',
+    illustrationPaths: [
+      'M66 150 158 58',
+      'M144 44l54 54',
+      'M82 168l-34 10 10-34',
+    ],
+    accentColor: '#bf5b48',
+    washColor: '#fae7df',
+    helperNudge: 'A quick demonstration could prevent trial and error.',
+  },
+};
+
+export const defaultGlobalImpact: GlobalHelpImpact = {
+  peopleHelped: 18,
+  humanSolutions: 1,
+  languagesReached: 3,
+};
+
+export const defaultGuideImpact: HelpImpact = {
+  peopleHelped: reusableGuide.helpedCount,
+  languagesReached: reusableGuide.languages,
+  recipients: [
+    { anonymousId: 'seed-person-001', displayName: 'Anna' },
+    { anonymousId: 'seed-person-002', displayName: 'Carlos' },
+    { anonymousId: 'seed-person-003', displayName: 'Mei' },
+  ],
+};
+
+export function mapHelpRequestToSummary(request: HelpRequest): HelpRequestSummary {
+  const categoryKey = request.category.trim().toLowerCase();
+  const visuals = requestVisuals[categoryKey] || requestVisuals.crafts;
+  const askedBy = request.askedBy || 'Someone';
+
+  return {
+    id: request.id,
+    routePath: `/request/${request.id}`,
+    question: request.title,
+    askedBy,
+    category: request.category,
+    status: request.status === 'open' ? 'Needs help' : 'Processed',
+    detail: request.description,
+    helperNudge: visuals.helperNudge,
+    iconPath: visuals.iconPath,
+    illustrationPaths: visuals.illustrationPaths,
+    accentColor: visuals.accentColor,
+    washColor: visuals.washColor,
+  };
+}
+
+export function mapSearchResultToGuide(result: HelpSearchResult): SearchResultGuide {
+  const matchPercent = Math.max(0, Math.round(result.relevance * 100));
+
+  return {
+    guideId: result.guideId,
+    title: result.title,
+    helperName: result.helperName || 'A helper',
+    helperInitial: getInitial(result.helperName),
+    helpedCount: result.peopleHelped,
+    languages: result.languagesReached,
+    matchPercent,
+    duration: 'Guide',
+    query: featuredSearchQuery,
+    summary: result.summary,
+    routePath: `/guide/${result.guideId}?match=${matchPercent}`,
+  };
+}
+
+export function mapHelpGuideToReusableGuide(
+  guide: HelpGuide,
+  impact: HelpImpact = defaultGuideImpact,
+  matchPercent = 0,
+): ReusableGuide {
+  const duration = formatDuration(getGuideDuration(guide.steps));
+  const originalRecipient = guide.originalRecipient || 'someone';
+
+  return {
+    id: guide.id,
+    badge: `Shared by ${guide.helperName}`,
+    title: guide.title,
+    supportingLine: `${guide.helperName} originally recorded this answer to help ${originalRecipient}.`,
+    helperName: guide.helperName,
+    helperInitial: getInitial(guide.helperName),
+    originalRecipient,
+    duration,
+    helpedCount: impact.peopleHelped,
+    languages: impact.languagesReached,
+    matchPercent,
+    matchText: 'Someone had already helped with something similar.',
+    materials: guide.materials,
+    steps: guide.steps.map((step) => mapGuideStep(guide.id, step)),
+    recipients: impact.recipients,
+  };
+}
+
+export function formatDuration(seconds: number) {
+  const safeSeconds = Math.max(0, Math.round(seconds));
+  const minutes = Math.floor(safeSeconds / 60);
+  const remainingSeconds = safeSeconds % 60;
+
+  return `${minutes}:${String(remainingSeconds).padStart(2, '0')}`;
+}
+
+function mapGuideStep(guideId: string, step: GuideStep): GuideStepData {
+  return {
+    id: `${guideId}-step-${step.order}`,
+    number: String(step.order).padStart(2, '0'),
+    title: step.title,
+    description: step.action,
+    timeRange: `${formatDuration(step.startTime)} -> ${formatDuration(step.endTime)}`,
+    momentLabel: 'Show this moment',
+  };
+}
+
+function getGuideDuration(steps: GuideStep[]) {
+  return steps.reduce((duration, step) => Math.max(duration, step.endTime), 0);
+}
+
+function getInitial(name: string) {
+  return name.trim().charAt(0).toUpperCase() || 'H';
+}
+
 export const processingSteps: ProcessingStepData[] = [
   {
-    label: "John's answer received",
+    label: "Helper's answer received",
     symbol: '✓',
     status: 'complete',
   },
@@ -217,7 +386,7 @@ export const sponsorMoments = [
   {
     label: 'Understanding the demonstration',
     provider: 'Google Gemini',
-    text: "Finds the important motions in John's answer.",
+    text: "Finds the important motions in the helper's answer.",
   },
   {
     label: 'Making the guide listenable',

@@ -18,7 +18,7 @@
         <nav class="hidden items-center gap-8 md:flex" aria-label="Main navigation">
           <NuxtLink to="/#find-help" class="hc-nav-link">Find Help</NuxtLink>
           <NuxtLink to="/#people-need-help" class="hc-nav-link">Help Someone</NuxtLink>
-          <NuxtLink to="/guide/1" class="hc-nav-link">Reusable Guide</NuxtLink>
+          <NuxtLink to="/guide/guide-pothos-overwatered" class="hc-nav-link">Reusable Guide</NuxtLink>
         </nav>
 
         <AppButton to="/ask" size="sm">Ask for Help</AppButton>
@@ -31,7 +31,7 @@
         <NuxtLink to="/#people-need-help" class="hc-nav-link rounded-[4px] border border-hc-line bg-hc-paper-soft px-2 py-2 text-center text-xs">
           Help
         </NuxtLink>
-        <NuxtLink to="/guide/1" class="hc-nav-link rounded-[4px] border border-hc-line bg-hc-paper-soft px-2 py-2 text-center text-xs">
+        <NuxtLink to="/guide/guide-pothos-overwatered" class="hc-nav-link rounded-[4px] border border-hc-line bg-hc-paper-soft px-2 py-2 text-center text-xs">
           Guide
         </NuxtLink>
       </nav>
