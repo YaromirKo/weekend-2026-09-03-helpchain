@@ -1,11 +1,17 @@
-// server/api/health.get.ts
+export default defineEventHandler((event) => {
+  const config = useRuntimeConfig(event);
 
-import { consola } from 'consola'
-
-export default defineEventHandler(() => {
   return {
     status: "ok",
     application: "HelpChain",
-    timestamp: new Date().toISOString(),
+    providers: {
+      gemini: Boolean(config.gemini?.apiKey),
+      elevenLabs: Boolean(config.elevenlabs?.apiKey && config.elevenlabs?.voiceId),
+      snowflake: Boolean(
+        config.snowflake?.account &&
+        config.snowflake?.username &&
+        config.snowflake?.password
+      ),
+    },
   }
 });

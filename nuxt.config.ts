@@ -10,21 +10,29 @@ export default defineNuxtConfig({
     preset: "node-server",
   },
   runtimeConfig: {
+    help: {
+      searchThreshold: 0.55,
+      maxVideoBytes: 20 * 1024 * 1024,
+    },
+
     gemini: {
       apiKey: "",
+      model: "gemini-3.8-flash",
     },
 
     elevenlabs: {
       apiKey: "",
+      voiceId: "",
     },
 
     snowflake: {
       account: "",
       username: "",
       password: "",
-      warehouse: "",
-      database: "",
-      schema: "",
+      warehouse: "HELPCHAIN_WH",
+      database: "HELPCHAIN",
+      schema: "PUBLIC",
+      role: "HELPCHAIN_ROLE",
     },
   },
 
