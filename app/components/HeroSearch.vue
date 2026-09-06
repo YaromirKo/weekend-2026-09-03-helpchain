@@ -59,7 +59,7 @@ onBeforeUnmount(() => {
 <template>
   <div id="find-help" class="max-w-3xl">
     <form
-      class="rounded-[8px] border border-hc-line bg-hc-paper p-2 shadow-hc-card sm:p-3"
+      class="rounded-[4px] border border-hc-line bg-hc-paper p-2 shadow-hc-card sm:p-3"
       aria-label="Search for existing shared help"
       @submit.prevent="findSharedHelp"
     >
@@ -68,7 +68,7 @@ onBeforeUnmount(() => {
         <input
           id="help-search"
           v-model="searchQuery"
-          class="hc-input min-h-14 rounded-[8px] border-transparent bg-hc-paper-soft px-4 text-base shadow-none disabled:cursor-wait disabled:opacity-80 focus:border-hc-emerald sm:min-h-16 sm:px-5"
+          class="hc-input min-h-14 rounded-[4px] border-transparent bg-hc-paper-soft px-4 text-base shadow-none disabled:cursor-wait disabled:opacity-80 focus:border-hc-emerald sm:min-h-16 sm:px-5"
           type="search"
           placeholder="What do you need help with?"
           :disabled="isFinding"

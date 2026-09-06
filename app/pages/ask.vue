@@ -21,7 +21,7 @@ const selectedCategory = ref<(typeof categories)[number]>('Crafts');
             Ask a real person. If they solve it, their answer can become reusable guidance for the next person too.
           </p>
 
-          <div class="mt-10 rounded-[8px] border border-hc-line bg-hc-paper p-5 shadow-hc-soft">
+          <div class="mt-10 rounded-[4px] border border-hc-line bg-hc-paper p-5 shadow-hc-soft">
             <div class="flex items-center gap-4">
               <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-hc-emerald text-sm font-semibold text-white">1</div>
               <div>
@@ -76,7 +76,7 @@ const selectedCategory = ref<(typeof categories)[number]>('Crafts');
               </label>
               <textarea
                 id="problem-description"
-                class="mt-2 min-h-40 w-full resize-y rounded-[8px] border border-hc-line bg-hc-paper px-5 py-4 text-base leading-7 text-hc-ink shadow-sm outline-none transition placeholder:text-hc-soft focus:border-hc-emerald focus:ring-4 focus:ring-hc-emerald-soft"
+                class="mt-2 min-h-40 w-full resize-y rounded-[4px] border border-hc-line bg-hc-paper px-5 py-4 text-base leading-7 text-hc-ink shadow-sm outline-none transition placeholder:text-hc-soft focus:border-hc-emerald focus:ring-4 focus:ring-hc-emerald-soft"
                 placeholder="Tell us what you tried and where you're stuck..."
               ></textarea>
             </div>
@@ -84,7 +84,7 @@ const selectedCategory = ref<(typeof categories)[number]>('Crafts');
             <div>
               <span class="text-sm font-semibold leading-6 text-hc-ink">Optional image</span>
               <label
-                class="mt-2 flex cursor-pointer flex-col items-center justify-center rounded-[8px] border border-dashed border-hc-line-strong bg-hc-paper-soft px-5 py-8 text-center transition hover:border-hc-emerald hover:bg-hc-emerald-wash/60"
+                class="mt-2 flex cursor-pointer flex-col items-center justify-center rounded-[4px] border border-dashed border-hc-line-strong bg-hc-paper-soft px-5 py-8 text-center transition hover:border-hc-emerald hover:bg-hc-emerald-wash/60"
                 for="problem-photo"
               >
                 <input id="problem-photo" class="sr-only" type="file" accept="image/*" />
@@ -103,7 +103,7 @@ const selectedCategory = ref<(typeof categories)[number]>('Crafts');
               <div class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
                 <label v-for="category in categories" :key="category" class="cursor-pointer">
                   <input v-model="selectedCategory" class="peer sr-only" type="radio" name="category" :value="category" />
-                  <span class="flex min-h-11 items-center justify-center rounded-[8px] border border-hc-line bg-hc-paper-soft px-3 text-sm font-semibold text-hc-muted transition peer-checked:border-hc-emerald peer-checked:bg-hc-emerald-wash peer-checked:text-hc-emerald peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-hc-emerald">
+                  <span class="flex min-h-11 items-center justify-center rounded-[4px] border border-hc-line bg-hc-paper-soft px-3 text-sm font-semibold text-hc-muted transition peer-checked:border-hc-emerald peer-checked:bg-hc-emerald-wash peer-checked:text-hc-emerald peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-hc-emerald">
                     {{ category }}
                   </span>
                 </label>

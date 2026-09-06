@@ -28,7 +28,7 @@ const props = withDefaults(
 );
 
 const buttonClass = computed(() => [
-  'hc-button rounded-[8px]',
+  'hc-button rounded-[4px]',
   props.block ? 'w-full' : '',
   {
     sm: 'min-h-10 px-4 text-xs',

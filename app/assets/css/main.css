@@ -68,11 +68,11 @@
   }
 
   .hc-card {
-    @apply rounded-[8px] border border-hc-line bg-hc-paper shadow-hc-card;
+    @apply rounded-[4px] border border-hc-line bg-hc-paper shadow-hc-card;
   }
 
   .hc-card-soft {
-    @apply rounded-[8px] border border-hc-line bg-hc-paper-soft shadow-hc-soft;
+    @apply rounded-[4px] border border-hc-line bg-hc-paper-soft shadow-hc-soft;
   }
 
   .hc-nav-link {
@@ -92,7 +92,7 @@
   }
 
   .hc-input {
-    @apply min-h-12 w-full rounded-[8px] border border-hc-line bg-hc-paper px-5 text-sm text-hc-ink shadow-sm outline-none transition placeholder:text-hc-soft focus:border-hc-emerald focus:ring-4 focus:ring-hc-emerald-soft;
+    @apply min-h-12 w-full rounded-[4px] border border-hc-line bg-hc-paper px-5 text-sm text-hc-ink shadow-sm outline-none transition placeholder:text-hc-soft focus:border-hc-emerald focus:ring-4 focus:ring-hc-emerald-soft;
   }
 
   .hc-badge {

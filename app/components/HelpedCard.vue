@@ -25,7 +25,7 @@ const markHelped = () => {
 </script>
 
 <template>
-  <section class="rounded-[8px] border border-hc-line bg-hc-paper p-5 shadow-hc-card sm:p-7">
+  <section class="rounded-[4px] border border-hc-line bg-hc-paper p-5 shadow-hc-card sm:p-7">
     <div class="grid gap-8 lg:grid-cols-[0.84fr_1.16fr] lg:items-center">
       <div>
         <h2 class="text-3xl font-semibold leading-tight text-hc-ink">
@@ -36,7 +36,7 @@ const markHelped = () => {
         </p>
 
         <button
-          class="hc-button mt-6 min-h-14 w-full rounded-[8px] bg-hc-emerald px-6 text-base font-semibold text-white shadow-hc-button transition duration-200 hover:bg-[#0b4333] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hc-emerald sm:w-auto"
+          class="hc-button mt-6 min-h-14 w-full rounded-[4px] bg-hc-emerald px-6 text-base font-semibold text-white shadow-hc-button transition duration-200 hover:bg-[#0b4333] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hc-emerald sm:w-auto"
           type="button"
           :disabled="hasJoined"
           @click="markHelped"
@@ -45,7 +45,7 @@ const markHelped = () => {
         </button>
       </div>
 
-      <div class="rounded-[8px] border border-hc-line bg-hc-paper-soft p-5">
+      <div class="rounded-[4px] border border-hc-line bg-hc-paper-soft p-5">
         <div class="flex items-center justify-center gap-5 text-center">
           <Transition name="hc-count" mode="out-in">
             <p :key="helpedCount" class="text-7xl font-semibold leading-none text-hc-emerald sm:text-8xl">
@@ -64,7 +64,7 @@ const markHelped = () => {
         </div>
 
         <Transition name="hc-discovery">
-          <div v-if="hasJoined" class="mt-6 rounded-[8px] bg-hc-emerald p-4 text-white">
+          <div v-if="hasJoined" class="mt-6 rounded-[4px] bg-hc-emerald p-4 text-white">
             <p class="text-2xl font-semibold leading-tight">
               You just became part of this help's story.
             </p>

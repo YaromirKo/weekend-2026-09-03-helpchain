@@ -25,13 +25,13 @@
       </div>
 
       <nav class="mt-4 grid grid-cols-3 gap-2 border-t border-hc-line pt-3 md:hidden" aria-label="Mobile navigation">
-        <NuxtLink to="/#find-help" class="hc-nav-link rounded-[8px] border border-hc-line bg-hc-paper-soft px-2 py-2 text-center text-xs">
+        <NuxtLink to="/#find-help" class="hc-nav-link rounded-[4px] border border-hc-line bg-hc-paper-soft px-2 py-2 text-center text-xs">
           Find Help
         </NuxtLink>
-        <NuxtLink to="/#people-need-help" class="hc-nav-link rounded-[8px] border border-hc-line bg-hc-paper-soft px-2 py-2 text-center text-xs">
+        <NuxtLink to="/#people-need-help" class="hc-nav-link rounded-[4px] border border-hc-line bg-hc-paper-soft px-2 py-2 text-center text-xs">
           Help
         </NuxtLink>
-        <NuxtLink to="/guide/1" class="hc-nav-link rounded-[8px] border border-hc-line bg-hc-paper-soft px-2 py-2 text-center text-xs">
+        <NuxtLink to="/guide/1" class="hc-nav-link rounded-[4px] border border-hc-line bg-hc-paper-soft px-2 py-2 text-center text-xs">
           Guide
         </NuxtLink>
       </nav>

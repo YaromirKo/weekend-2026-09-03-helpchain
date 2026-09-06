@@ -28,7 +28,7 @@ import {
         </div>
 
         <div class="relative z-10 mx-auto w-full max-w-[35rem] lg:mx-0 lg:justify-self-end" aria-label="One answer branching into reusable help">
-          <div class="relative overflow-hidden rounded-[8px] border border-hc-line bg-hc-paper shadow-hc-card">
+          <div class="relative overflow-hidden rounded-[4px] border border-hc-line bg-hc-paper shadow-hc-card">
             <div class="border-b border-hc-line bg-hc-emerald px-5 py-4 text-white sm:px-6">
               <p class="text-sm font-semibold uppercase leading-5 text-white/70">The source stays visible</p>
               <p class="mt-1 text-2xl font-semibold leading-tight">John records one 27-second answer.</p>
@@ -70,7 +70,7 @@ import {
                 <p class="mt-2 text-xs font-semibold text-hc-muted">Kim</p>
               </div>
 
-              <div class="absolute bottom-5 left-5 right-5 z-10 rounded-[8px] border border-hc-line bg-hc-paper/95 p-4 shadow-hc-soft">
+              <div class="absolute bottom-5 left-5 right-5 z-10 rounded-[4px] border border-hc-line bg-hc-paper/95 p-4 shadow-hc-soft">
                 <div class="grid grid-cols-3 gap-3 text-center">
                   <div>
                     <p class="text-3xl font-semibold leading-none text-hc-emerald">1</p>
@@ -109,7 +109,7 @@ import {
             <article
               v-for="moment in sponsorMoments"
               :key="moment.provider"
-              class="rounded-[8px] border border-hc-line bg-hc-paper p-5 shadow-hc-soft"
+              class="rounded-[4px] border border-hc-line bg-hc-paper p-5 shadow-hc-soft"
             >
               <p class="text-sm font-semibold leading-6 text-hc-ink">{{ moment.label }}</p>
               <p class="mt-1 text-xs font-semibold uppercase leading-4 text-hc-muted">{{ moment.provider }}</p>

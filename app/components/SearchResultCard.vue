@@ -19,7 +19,7 @@ defineProps<{
           </h2>
         </div>
 
-        <div class="w-fit rounded-[8px] bg-white/10 px-4 py-3 text-center">
+        <div class="w-fit rounded-[4px] bg-white/10 px-4 py-3 text-center">
           <p class="text-4xl font-semibold leading-none">{{ result.matchPercent }}%</p>
           <p class="mt-1 text-xs font-semibold uppercase leading-4 text-white/70">relevant</p>
         </div>
@@ -27,7 +27,7 @@ defineProps<{
     </div>
 
     <div class="p-5 sm:p-7">
-      <div class="rounded-[8px] bg-hc-paper-soft p-4 sm:p-5">
+      <div class="rounded-[4px] bg-hc-paper-soft p-4 sm:p-5">
         <div class="p-5 sm:p-6">
           <div class="grid gap-5">
             <div class="flex min-w-0 items-center gap-4">
@@ -45,15 +45,15 @@ defineProps<{
             </div>
 
             <dl class="grid gap-2 text-center sm:grid-cols-3">
-              <div class="rounded-[8px] bg-hc-paper px-4 py-4 shadow-hc-soft">
+              <div class="rounded-[4px] bg-hc-paper px-4 py-4 shadow-hc-soft">
                 <dt class="text-xs font-semibold uppercase leading-4 text-hc-muted">answer</dt>
                 <dd class="mt-2 text-3xl font-semibold leading-none text-hc-emerald">{{ result.duration }}</dd>
               </div>
-              <div class="rounded-[8px] bg-hc-paper px-4 py-4 shadow-hc-soft">
+              <div class="rounded-[4px] bg-hc-paper px-4 py-4 shadow-hc-soft">
                 <dt class="text-xs font-semibold uppercase leading-4 text-hc-muted">people helped</dt>
                 <dd class="mt-2 text-3xl font-semibold leading-none text-hc-emerald">{{ result.helpedCount }}</dd>
               </div>
-              <div class="rounded-[8px] bg-hc-paper px-4 py-4 shadow-hc-soft">
+              <div class="rounded-[4px] bg-hc-paper px-4 py-4 shadow-hc-soft">
                 <dt class="text-xs font-semibold uppercase leading-4 text-hc-muted">languages</dt>
                 <dd class="mt-2 text-3xl font-semibold leading-none text-hc-emerald">{{ result.languages }}</dd>
               </div>
@@ -61,7 +61,7 @@ defineProps<{
           </div>
         </div>
 
-        <div class="rounded-[8px] bg-hc-paper p-5 shadow-hc-soft sm:p-6">
+        <div class="rounded-[4px] bg-hc-paper p-5 shadow-hc-soft sm:p-6">
           <div class="grid gap-5">
             <div class="min-w-0 max-w-2xl">
               <StatusBadge tone="emerald" dot>Reusable guide</StatusBadge>

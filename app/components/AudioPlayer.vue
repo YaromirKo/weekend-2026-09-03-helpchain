@@ -6,7 +6,7 @@ const selectedLanguage = ref<(typeof languages)[number]>('English');
 </script>
 
 <template>
-  <section class="rounded-[8px] border border-hc-line bg-hc-paper p-5 shadow-hc-soft sm:p-7">
+  <section class="rounded-[4px] border border-hc-line bg-hc-paper p-5 shadow-hc-soft sm:p-7">
     <div class="grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
       <div>
         <StatusBadge tone="amber">Making the guide listenable: ElevenLabs</StatusBadge>
@@ -18,14 +18,14 @@ const selectedLanguage = ref<(typeof languages)[number]>('English');
         </p>
       </div>
 
-      <div class="rounded-[8px] border border-hc-line bg-hc-paper-soft p-4 sm:p-5">
+      <div class="rounded-[4px] border border-hc-line bg-hc-paper-soft p-4 sm:p-5">
         <fieldset>
           <legend class="sr-only">Audio language</legend>
           <div class="grid grid-cols-3 gap-2">
             <button
               v-for="language in languages"
               :key="language"
-              class="min-h-10 rounded-[8px] border px-3 text-sm font-semibold transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hc-emerald"
+              class="min-h-10 rounded-[4px] border px-3 text-sm font-semibold transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hc-emerald"
               :class="selectedLanguage === language ? 'border-hc-emerald bg-hc-emerald text-white' : 'border-hc-line bg-hc-paper text-hc-muted hover:text-hc-ink'"
               type="button"
               :aria-pressed="selectedLanguage === language"
@@ -36,7 +36,7 @@ const selectedLanguage = ref<(typeof languages)[number]>('English');
           </div>
         </fieldset>
 
-        <div class="mt-5 flex items-center gap-4 rounded-[8px] border border-hc-line bg-hc-paper px-4 py-4">
+        <div class="mt-5 flex items-center gap-4 rounded-[4px] border border-hc-line bg-hc-paper px-4 py-4">
           <button
             class="flex size-11 shrink-0 items-center justify-center rounded-full bg-hc-emerald text-white transition duration-200 hover:bg-[#0b4333] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hc-emerald"
             type="button"

@@ -40,7 +40,7 @@ defineProps<{
         </svg>
       </div>
 
-      <div class="absolute bottom-4 right-4 rounded-[8px] border border-hc-line bg-hc-paper/90 px-3 py-1 text-xs font-semibold text-hc-muted shadow-hc-soft">
+      <div class="absolute bottom-4 right-4 rounded-[4px] border border-hc-line bg-hc-paper/90 px-3 py-1 text-xs font-semibold text-hc-muted shadow-hc-soft">
         {{ request.category }}
       </div>
     </div>
@@ -48,7 +48,7 @@ defineProps<{
     <div class="flex flex-1 flex-col p-5">
       <div class="flex items-center justify-between gap-3">
         <span class="text-sm font-semibold text-[var(--request-accent)]">{{ request.category }}</span>
-        <span class="rounded-[8px] border border-hc-line bg-hc-paper-soft px-3 py-1 text-[0.68rem] font-semibold uppercase leading-4 text-hc-muted">
+        <span class="rounded-[4px] border border-hc-line bg-hc-paper-soft px-3 py-1 text-[0.68rem] font-semibold uppercase leading-4 text-hc-muted">
           {{ request.status }}
         </span>
       </div>

@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <article class="rounded-[8px] border border-hc-line bg-hc-paper p-5 shadow-hc-soft">
+  <article class="rounded-[4px] border border-hc-line bg-hc-paper p-5 shadow-hc-soft">
     <div class="flex flex-wrap items-center gap-3">
       <StatusBadge tone="coral" dot>{{ request.status }}</StatusBadge>
       <span class="text-sm font-semibold text-hc-muted">{{ request.category }}</span>

@@ -13,7 +13,7 @@ defineEmits<{
 
 <template>
   <article
-    class="group relative rounded-[8px] border bg-hc-paper p-5 shadow-hc-soft transition duration-300 hover:-translate-y-0.5"
+    class="group relative rounded-[4px] border bg-hc-paper p-5 shadow-hc-soft transition duration-300 hover:-translate-y-0.5"
     :class="active ? 'border-hc-emerald shadow-[0_18px_48px_rgba(15,91,73,0.14)]' : 'border-hc-line'"
   >
     <span
@@ -41,7 +41,7 @@ defineEmits<{
       </div>
 
       <button
-        class="hc-button min-h-11 shrink-0 rounded-[8px] border border-hc-line-strong bg-hc-paper-soft px-4 text-sm font-semibold text-hc-ink transition duration-200 hover:border-hc-emerald hover:text-hc-emerald focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hc-emerald"
+        class="hc-button min-h-11 shrink-0 rounded-[4px] border border-hc-line-strong bg-hc-paper-soft px-4 text-sm font-semibold text-hc-ink transition duration-200 hover:border-hc-emerald hover:text-hc-emerald focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hc-emerald"
         type="button"
         :aria-pressed="active"
         @click="$emit('select', step.id)"

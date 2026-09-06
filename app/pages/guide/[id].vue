@@ -58,7 +58,7 @@ const activeMoment = computed(() => {
             compact
           />
 
-          <section class="mt-5 rounded-[8px] border border-hc-line bg-hc-paper p-5 shadow-hc-soft">
+          <section class="mt-5 rounded-[4px] border border-hc-line bg-hc-paper p-5 shadow-hc-soft">
             <h2 class="text-xl font-semibold leading-7 text-hc-ink">You'll need</h2>
             <div class="mt-4 flex flex-wrap gap-2">
               <span
@@ -121,7 +121,7 @@ const activeMoment = computed(() => {
         <article
           v-for="moment in sponsorMoments"
           :key="moment.provider"
-          class="rounded-[8px] border border-hc-line bg-hc-paper p-5 shadow-hc-soft"
+          class="rounded-[4px] border border-hc-line bg-hc-paper p-5 shadow-hc-soft"
         >
           <p class="text-sm font-semibold leading-6 text-hc-ink">{{ moment.label }}</p>
           <p class="mt-1 text-xs font-semibold uppercase leading-4 text-hc-muted">{{ moment.provider }}</p>
@@ -154,19 +154,19 @@ const activeMoment = computed(() => {
             </AppButton>
           </div>
 
-          <div class="rounded-[8px] border border-white/15 bg-white/10 p-5">
+          <div class="rounded-[4px] border border-white/15 bg-white/10 p-5">
             <div class="grid gap-4 sm:grid-cols-[1fr_auto_1fr_auto_1fr] sm:items-center">
-              <div class="rounded-[8px] bg-white/10 p-4">
+              <div class="rounded-[4px] bg-white/10 p-4">
                 <p class="text-sm font-semibold uppercase leading-5 text-white/60">receive help</p>
                 <p class="mt-2 text-xl font-semibold leading-7">Watch John's answer</p>
               </div>
               <div class="hidden h-px w-8 bg-white/30 sm:block" />
-              <div class="rounded-[8px] bg-white/10 p-4">
+              <div class="rounded-[4px] bg-white/10 p-4">
                 <p class="text-sm font-semibold uppercase leading-5 text-white/60">benefit</p>
                 <p class="mt-2 text-xl font-semibold leading-7">Solve the problem</p>
               </div>
               <div class="hidden h-px w-8 bg-white/30 sm:block" />
-              <div class="rounded-[8px] bg-white/10 p-4">
+              <div class="rounded-[4px] bg-white/10 p-4">
                 <p class="text-sm font-semibold uppercase leading-5 text-white/60">help someone else</p>
                 <p class="mt-2 text-xl font-semibold leading-7">Record what you know</p>
               </div>

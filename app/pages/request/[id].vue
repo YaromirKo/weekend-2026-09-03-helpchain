@@ -105,7 +105,7 @@ onBeforeUnmount(() => {
           </div>
 
           <div class="border-t border-hc-line bg-hc-paper-soft p-5 sm:p-6">
-            <div class="relative min-h-72 overflow-hidden rounded-[8px] border border-hc-line bg-hc-paper">
+            <div class="relative min-h-72 overflow-hidden rounded-[4px] border border-hc-line bg-hc-paper">
               <svg class="absolute inset-0 h-full w-full" viewBox="0 0 620 320" role="img" aria-label="A loose yarn loop collapsing before it becomes a slip knot">
                 <path d="M82 210c62-90 187-94 230-18 34 61-31 126-91 79-54-42 8-135 96-89" fill="none" stroke="#0f5b49" stroke-linecap="round" stroke-width="9" />
                 <path d="M244 260c-56 34-111 51-170 55" fill="none" stroke="#c5cebf" stroke-linecap="round" stroke-width="7" />
@@ -114,7 +114,7 @@ onBeforeUnmount(() => {
                 <circle cx="262" cy="236" r="8" fill="#c8892f" />
               </svg>
 
-              <div class="absolute left-5 top-5 max-w-xs rounded-[8px] border border-hc-line bg-hc-paper/95 p-4 shadow-hc-soft">
+              <div class="absolute left-5 top-5 max-w-xs rounded-[4px] border border-hc-line bg-hc-paper/95 p-4 shadow-hc-soft">
                 <p class="text-xs font-semibold uppercase leading-4 text-hc-muted">where it fails</p>
                 <p class="mt-2 text-sm font-semibold leading-6 text-hc-ink">
                   The loop collapses while Anna tightens the yarn.
@@ -124,7 +124,7 @@ onBeforeUnmount(() => {
           </div>
         </article>
 
-        <aside class="min-w-0 rounded-[8px] bg-hc-emerald p-6 text-white shadow-hc-card sm:p-8">
+        <aside class="min-w-0 rounded-[4px] bg-hc-emerald p-6 text-white shadow-hc-card sm:p-8">
           <span class="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase leading-5 text-white/75">
             Answer from John
           </span>
@@ -137,7 +137,7 @@ onBeforeUnmount(() => {
             The next step is not to replace John. It is to turn his demonstration into a guide that keeps him attached as the source.
           </p>
 
-          <div class="mt-8 rounded-[8px] bg-white/10 p-4">
+          <div class="mt-8 rounded-[4px] bg-white/10 p-4">
             <p class="text-sm font-semibold leading-6 text-white">Source chain</p>
             <div class="mt-4 grid grid-cols-[auto_1fr_auto] items-center gap-3 text-sm font-semibold text-white/80">
               <span>John</span>
@@ -164,17 +164,9 @@ onBeforeUnmount(() => {
         />
 
         <article
-          class="relative min-w-0 overflow-hidden rounded-[8px] border bg-hc-paper p-6 shadow-hc-card sm:p-8"
+          class="relative min-w-0 overflow-hidden rounded-[4px] border bg-hc-paper p-6 shadow-hc-card sm:p-8"
           :class="videoAccepted ? 'border-hc-emerald' : 'border-hc-line'"
         >
-          <svg class="absolute inset-x-0 top-0 h-44 w-full text-hc-emerald/20" viewBox="0 0 620 180" aria-hidden="true">
-            <path d="M82 70c114 3 128 56 226 56s122-76 230-73" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" />
-            <path d="M308 126c-42 0-62 27-92 48M308 126c47 0 65 26 104 47" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" />
-            <circle cx="82" cy="70" r="8" fill="currentColor" />
-            <circle cx="308" cy="126" r="10" fill="currentColor" />
-            <circle cx="538" cy="53" r="8" fill="currentColor" />
-          </svg>
-
           <div class="relative">
             <div class="flex items-center gap-3">
               <span class="flex size-11 shrink-0 items-center justify-center rounded-full bg-hc-emerald text-sm font-semibold text-white">
@@ -188,14 +180,14 @@ onBeforeUnmount(() => {
 
             <div class="my-10 flex justify-center">
               <div class="grid w-full max-w-md grid-cols-[1fr_auto_1fr] items-center gap-3">
-                <div class="rounded-[8px] border border-hc-line bg-hc-paper-soft p-4">
+                <div class="rounded-[4px] border border-hc-line bg-hc-paper-soft p-4">
                   <p class="text-xs font-semibold uppercase leading-4 text-hc-muted">source</p>
                   <p class="mt-2 text-sm font-semibold leading-6 text-hc-ink">John's 0:27 video</p>
                 </div>
                 <div class="flex size-12 items-center justify-center rounded-full bg-hc-amber text-xl font-semibold text-hc-ink">
                   →
                 </div>
-                <div class="rounded-[8px] border border-hc-line bg-hc-paper-soft p-4">
+                <div class="rounded-[4px] border border-hc-line bg-hc-paper-soft p-4">
                   <p class="text-xs font-semibold uppercase leading-4 text-hc-muted">reusable</p>
                   <p class="mt-2 text-sm font-semibold leading-6 text-hc-ink">steps, moments, audio</p>
                 </div>
@@ -210,7 +202,7 @@ onBeforeUnmount(() => {
             </p>
 
             <button
-              class="group relative mt-9 min-h-16 w-full overflow-hidden rounded-[8px] bg-hc-ink px-6 text-base font-semibold text-white shadow-[0_18px_40px_rgba(20,31,27,0.22)] transition duration-300 hover:bg-[#0d1713] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hc-emerald disabled:cursor-wait disabled:opacity-80 sm:text-lg"
+              class="group relative mt-9 min-h-16 w-full overflow-hidden rounded-[4px] bg-hc-ink px-6 text-base font-semibold text-white shadow-[0_18px_40px_rgba(20,31,27,0.22)] transition duration-300 hover:bg-[#0d1713] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hc-emerald disabled:cursor-wait disabled:opacity-80 sm:text-lg"
               type="button"
               :aria-busy="isTransforming"
               :disabled="isTransforming"

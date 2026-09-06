@@ -17,7 +17,7 @@ const displayCount = computed(() => props.helpedCount + (props.showNewNode ? 1 :
 </script>
 
 <template>
-  <section class="overflow-hidden rounded-[8px] border border-hc-line bg-hc-paper shadow-hc-card">
+  <section class="overflow-hidden rounded-[4px] border border-hc-line bg-hc-paper shadow-hc-card">
     <div class="grid gap-0 lg:grid-cols-[0.48fr_0.52fr]">
       <div class="border-b border-hc-line p-5 sm:p-8 lg:border-b-0 lg:border-r">
         <StatusBadge tone="emerald" dot>Generosity graph</StatusBadge>
@@ -29,21 +29,21 @@ const displayCount = computed(() => props.helpedCount + (props.showNewNode ? 1 :
         </p>
 
         <div class="mt-8 grid grid-cols-1 gap-3 text-center sm:grid-cols-3 lg:grid-cols-1 lg:text-left xl:grid-cols-3 xl:text-center">
-          <div class="rounded-[8px] border border-hc-line bg-hc-paper-soft p-4">
+          <div class="rounded-[4px] border border-hc-line bg-hc-paper-soft p-4">
             <p class="text-3xl font-semibold leading-none text-hc-emerald">1</p>
             <p class="mt-2 text-xs font-semibold uppercase leading-4 text-hc-muted">shared answer</p>
           </div>
-          <div class="rounded-[8px] border border-hc-line bg-hc-paper-soft p-4">
+          <div class="rounded-[4px] border border-hc-line bg-hc-paper-soft p-4">
             <p class="text-3xl font-semibold leading-none text-hc-emerald">{{ displayCount }}</p>
             <p class="mt-2 text-xs font-semibold uppercase leading-4 text-hc-muted">people helped</p>
           </div>
-          <div class="rounded-[8px] border border-hc-line bg-hc-paper-soft p-4">
+          <div class="rounded-[4px] border border-hc-line bg-hc-paper-soft p-4">
             <p class="text-3xl font-semibold leading-none text-hc-emerald">{{ languages }}</p>
             <p class="mt-2 text-xs font-semibold uppercase leading-4 text-hc-muted">languages</p>
           </div>
         </div>
 
-        <div class="mt-6 rounded-[8px] border border-hc-line bg-hc-paper-soft p-4 text-center">
+        <div class="mt-6 rounded-[4px] border border-hc-line bg-hc-paper-soft p-4 text-center">
           <p class="text-base font-semibold leading-6 text-hc-ink">1 shared answer</p>
           <p class="py-2 text-xl font-semibold leading-none text-hc-emerald">↓</p>
           <p class="text-base font-semibold leading-6 text-hc-ink">{{ displayCount }} people helped</p>
@@ -84,7 +84,7 @@ const displayCount = computed(() => props.helpedCount + (props.showNewNode ? 1 :
             <p class="mt-2 text-sm font-semibold text-hc-ink">Mei</p>
           </div>
 
-          <div class="absolute bottom-12 left-1/2 z-10 -translate-x-1/2 rounded-[8px] border border-hc-line bg-hc-paper px-5 py-3 text-center shadow-hc-soft">
+          <div class="absolute bottom-12 left-1/2 z-10 -translate-x-1/2 rounded-[4px] border border-hc-line bg-hc-paper px-5 py-3 text-center shadow-hc-soft">
             <p class="text-sm font-semibold leading-5 text-hc-ink">+15 more people helped</p>
           </div>
 
@@ -97,7 +97,7 @@ const displayCount = computed(() => props.helpedCount + (props.showNewNode ? 1 :
         </div>
 
         <div class="grid gap-4 sm:hidden">
-          <div class="flex items-center gap-4 rounded-[8px] bg-hc-paper p-4">
+          <div class="flex items-center gap-4 rounded-[4px] bg-hc-paper p-4">
             <div class="flex size-12 items-center justify-center rounded-full bg-hc-emerald text-lg font-semibold text-white">J</div>
             <div>
               <p class="text-sm font-semibold uppercase leading-5 text-hc-muted">John</p>
@@ -106,24 +106,24 @@ const displayCount = computed(() => props.helpedCount + (props.showNewNode ? 1 :
           </div>
           <div class="ml-6 h-8 w-px bg-hc-line-strong" />
           <div class="grid grid-cols-3 gap-2 text-center">
-            <div class="rounded-[8px] bg-hc-paper p-3">
+            <div class="rounded-[4px] bg-hc-paper p-3">
               <div class="hc-node mx-auto">A</div>
               <p class="mt-2 text-xs font-semibold text-hc-ink">Anna</p>
             </div>
-            <div class="rounded-[8px] bg-hc-paper p-3">
+            <div class="rounded-[4px] bg-hc-paper p-3">
               <div class="hc-node mx-auto">C</div>
               <p class="mt-2 text-xs font-semibold text-hc-ink">Carlos</p>
             </div>
-            <div class="rounded-[8px] bg-hc-paper p-3">
+            <div class="rounded-[4px] bg-hc-paper p-3">
               <div class="hc-node mx-auto">M</div>
               <p class="mt-2 text-xs font-semibold text-hc-ink">Mei</p>
             </div>
           </div>
-          <p class="rounded-[8px] border border-hc-line bg-hc-paper px-4 py-3 text-center text-sm font-semibold text-hc-ink">
+          <p class="rounded-[4px] border border-hc-line bg-hc-paper px-4 py-3 text-center text-sm font-semibold text-hc-ink">
             +15 more people helped
           </p>
           <Transition name="hc-node-pop">
-            <p v-if="showNewNode" class="rounded-[8px] bg-hc-emerald px-4 py-3 text-center text-sm font-semibold text-white">
+            <p v-if="showNewNode" class="rounded-[4px] bg-hc-emerald px-4 py-3 text-center text-sm font-semibold text-white">
               You joined this path.
             </p>
           </Transition>

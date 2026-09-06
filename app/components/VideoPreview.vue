@@ -42,17 +42,17 @@ defineEmits<{
         </div>
 
         <div class="flex items-center gap-3 text-sm font-semibold text-hc-ink">
-          <span class="flex size-10 items-center justify-center rounded-full bg-hc-emerald text-xs text-white">
+          <span class="flex size-10 shrink-0 items-center justify-center bg-hc-emerald text-xs text-white rounded-full">
             {{ helperInitial }}
           </span>
           <span>helper: {{ helperName }}</span>
-          <span class="rounded-[8px] bg-hc-paper-soft px-3 py-1">{{ duration }}</span>
+          <span class="rounded-[4px] bg-hc-paper-soft px-3 py-1">{{ duration }}</span>
         </div>
       </div>
     </div>
 
     <div class="bg-[#e9f1ec] p-3 sm:p-4">
-      <div class="relative aspect-video overflow-hidden rounded-[8px] border border-hc-emerald/15 bg-hc-paper shadow-inner">
+      <div class="relative aspect-video overflow-hidden rounded-[4px] border border-hc-emerald/15 bg-hc-paper shadow-inner">
         <svg class="absolute inset-0 h-full w-full" viewBox="0 0 760 430" role="img" aria-label="John demonstrating a slip knot with yarn on a table">
           <rect x="70" y="64" width="620" height="300" rx="22" fill="#fffdf8" opacity="0.72" />
           <path d="M114 287c108-112 258-108 316-16 45 72-28 145-111 90-77-51-9-168 105-114" fill="none" stroke="#0f5b49" stroke-linecap="round" stroke-width="13" />
@@ -72,11 +72,11 @@ defineEmits<{
           />
         </svg>
 
-        <div class="absolute left-4 top-4 rounded-[8px] border border-hc-line bg-hc-paper/90 px-3 py-2 text-xs font-semibold uppercase leading-4 text-hc-muted shadow-hc-soft">
+        <div class="absolute left-4 top-4 rounded-[4px] border border-hc-line bg-hc-paper/90 px-3 py-2 text-xs font-semibold uppercase leading-4 text-hc-muted shadow-hc-soft">
           Source video
         </div>
 
-        <div class="absolute right-4 top-4 rounded-[8px] bg-hc-ink px-3 py-2 text-sm font-semibold text-white shadow-hc-soft">
+        <div class="absolute right-4 top-4 rounded-[4px] bg-hc-ink px-3 py-2 text-sm font-semibold text-white shadow-hc-soft">
           {{ duration }}
         </div>
 
@@ -91,12 +91,12 @@ defineEmits<{
         </button>
 
         <div class="absolute bottom-4 left-4 right-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div class="rounded-[8px] border border-hc-line bg-hc-paper/95 p-3 shadow-hc-soft">
+          <div class="rounded-[4px] border border-hc-line bg-hc-paper/95 p-3 shadow-hc-soft">
             <p class="text-xs font-semibold uppercase leading-4 text-hc-muted">original helper</p>
             <p class="mt-1 text-lg font-semibold leading-6 text-hc-ink">{{ helperName }}</p>
           </div>
 
-          <div v-if="activeMoment" class="rounded-[8px] border border-hc-amber/30 bg-hc-amber-soft px-3 py-2 text-sm font-semibold text-hc-ink shadow-hc-soft">
+          <div v-if="activeMoment" class="rounded-[4px] border border-hc-amber/30 bg-hc-amber-soft px-3 py-2 text-sm font-semibold text-hc-ink shadow-hc-soft">
             {{ activeMoment }}
           </div>
         </div>
