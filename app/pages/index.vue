@@ -14,7 +14,7 @@ import {
         <div class="relative z-10 max-w-3xl">
           <StatusBadge tone="emerald" dot>Real answers that keep helping</StatusBadge>
 
-          <h1 class="hc-text-balance mt-7 max-w-3xl text-5xl font-semibold leading-[0.95] text-hc-ink sm:text-6xl lg:text-7xl">
+          <h1 class="hc-text-balance mt-7 max-w-3xl text-5xl font-semibold leading-[0.95] text-hc-ink sm:text-3xl lg:text-5xl">
             Someone already solved this. Follow their answer.
           </h1>
 
