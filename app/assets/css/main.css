@@ -3,25 +3,25 @@
 @theme {
   --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
-  --color-hc-canvas: #f7f2ea;
+  --color-hc-canvas: #f4f7f0;
   --color-hc-paper: #fffdf8;
-  --color-hc-paper-soft: #fbf6ee;
-  --color-hc-ink: #20231f;
-  --color-hc-muted: #777167;
-  --color-hc-soft: #a89f91;
-  --color-hc-line: #e6dccd;
-  --color-hc-line-strong: #d7c9b7;
-  --color-hc-emerald: #0f4f3d;
-  --color-hc-emerald-soft: #dcebe3;
-  --color-hc-emerald-wash: #edf6f1;
-  --color-hc-coral: #c9674b;
-  --color-hc-coral-soft: #f5ded6;
-  --color-hc-amber: #d89b3d;
-  --color-hc-amber-soft: #f7ead0;
+  --color-hc-paper-soft: #eef4ee;
+  --color-hc-ink: #17211d;
+  --color-hc-muted: #667064;
+  --color-hc-soft: #9aa391;
+  --color-hc-line: #d9e0d4;
+  --color-hc-line-strong: #c5cebf;
+  --color-hc-emerald: #0f5b49;
+  --color-hc-emerald-soft: #d8ebe3;
+  --color-hc-emerald-wash: #e7f4ee;
+  --color-hc-coral: #bf5b48;
+  --color-hc-coral-soft: #fae7df;
+  --color-hc-amber: #c8892f;
+  --color-hc-amber-soft: #f8ecd2;
 
-  --shadow-hc-card: 0 18px 60px rgb(57 45 31 / 0.08);
-  --shadow-hc-soft: 0 12px 34px rgb(46 39 29 / 0.08);
-  --shadow-hc-button: 0 12px 22px rgb(15 79 61 / 0.18);
+  --shadow-hc-card: 0 18px 60px rgb(32 49 41 / 0.1);
+  --shadow-hc-soft: 0 12px 34px rgb(32 49 41 / 0.08);
+  --shadow-hc-button: 0 12px 22px rgb(15 91 73 / 0.18);
 }
 
 @layer base {
@@ -51,11 +51,12 @@
 
 @layer components {
   .hc-page {
-    @apply min-h-screen overflow-hidden bg-hc-canvas text-hc-ink;
+    @apply min-h-screen overflow-x-hidden bg-hc-canvas text-hc-ink;
     background:
-      radial-gradient(circle at 12% 10%, rgb(255 253 248 / 0.94) 0 16rem, transparent 28rem),
-      radial-gradient(circle at 88% 2%, rgb(220 235 227 / 0.7) 0 14rem, transparent 30rem),
-      linear-gradient(135deg, rgb(255 253 248 / 0.78), rgb(247 242 234 / 1) 46%, rgb(251 246 238 / 0.9));
+      linear-gradient(90deg, rgb(15 91 73 / 0.045) 1px, transparent 1px),
+      linear-gradient(0deg, rgb(15 91 73 / 0.035) 1px, transparent 1px),
+      linear-gradient(135deg, #fbfcf7 0%, #f4f7f0 48%, #edf4ef 100%);
+    background-size: 52px 52px, 52px 52px, auto;
   }
 
   .hc-container {
@@ -79,7 +80,7 @@
   }
 
   .hc-button {
-    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hc-emerald;
+    @apply inline-flex items-center justify-center gap-2 text-center font-semibold transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hc-emerald disabled:cursor-not-allowed disabled:opacity-70;
   }
 
   .hc-button-primary {
@@ -91,11 +92,11 @@
   }
 
   .hc-input {
-    @apply min-h-12 w-full rounded-full border border-hc-line bg-hc-paper px-5 text-sm text-hc-ink shadow-sm outline-none transition placeholder:text-hc-soft focus:border-hc-emerald focus:ring-4 focus:ring-hc-emerald-soft;
+    @apply min-h-12 w-full rounded-[8px] border border-hc-line bg-hc-paper px-5 text-sm text-hc-ink shadow-sm outline-none transition placeholder:text-hc-soft focus:border-hc-emerald focus:ring-4 focus:ring-hc-emerald-soft;
   }
 
   .hc-badge {
-    @apply inline-flex max-w-full items-center gap-2 rounded-full border border-hc-line bg-hc-paper-soft px-3 py-1 text-xs font-semibold uppercase leading-5 text-hc-muted;
+    @apply inline-flex max-w-full items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold uppercase leading-5;
   }
 
   .hc-node {
@@ -103,8 +104,8 @@
   }
 
   .hc-ripple {
-    @apply absolute rounded-full border border-hc-emerald/15;
-    animation: hc-ripple 5.5s ease-out infinite;
+    @apply rounded-full border border-hc-emerald/15;
+    animation: hc-ripple 4.8s ease-out infinite;
   }
 }
 
@@ -127,6 +128,72 @@
   transform: translateY(0.75rem);
 }
 
+.hc-count-enter-active,
+.hc-count-leave-active {
+  transition:
+    opacity 240ms ease,
+    transform 240ms ease;
+}
+
+.hc-count-enter-from {
+  opacity: 0;
+  transform: translateY(0.7rem);
+}
+
+.hc-count-leave-to {
+  opacity: 0;
+  transform: translateY(-0.7rem);
+}
+
+.hc-node-pop-enter-active,
+.hc-node-pop-leave-active {
+  transition:
+    opacity 260ms ease,
+    transform 260ms ease;
+}
+
+.hc-node-pop-enter-from,
+.hc-node-pop-leave-to {
+  opacity: 0;
+  transform: translateY(0.5rem) scale(0.96);
+}
+
+.hc-line-draw {
+  stroke-dasharray: 620;
+  stroke-dashoffset: 620;
+  animation: hc-draw-line 620ms ease forwards;
+}
+
+.hc-delay-1 {
+  animation-delay: 90ms;
+}
+
+.hc-delay-2 {
+  animation-delay: 150ms;
+}
+
+.hc-delay-3 {
+  animation-delay: 210ms;
+}
+
+.hc-delay-4 {
+  animation-delay: 280ms;
+}
+
+.hc-branch-card {
+  opacity: 0;
+  transform: translateY(0.65rem);
+  animation: hc-soft-rise 320ms ease forwards;
+}
+
+.hc-branch-card:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.hc-branch-card:nth-child(3) {
+  animation-delay: 200ms;
+}
+
 @keyframes hc-ripple {
   0% {
     opacity: 0.62;
@@ -136,6 +203,40 @@
   75%,
   100% {
     opacity: 0;
-    transform: scale(1.28);
+    transform: scale(1.24);
+  }
+}
+
+@keyframes hc-draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes hc-soft-rise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+
+  .hc-discovery-enter-from,
+  .hc-discovery-leave-to,
+  .hc-count-enter-from,
+  .hc-count-leave-to,
+  .hc-node-pop-enter-from,
+  .hc-node-pop-leave-to,
+  .hc-branch-card {
+    transform: none !important;
   }
 }

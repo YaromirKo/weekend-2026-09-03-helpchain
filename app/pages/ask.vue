@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { openRequest } from '~/data/helpchain';
 
 const categories = ['Crafts', 'Plants', 'Repairs', 'Cooking', 'Technology', 'Other'] as const;
 const selectedCategory = ref<(typeof categories)[number]>('Crafts');
@@ -8,18 +9,16 @@ const selectedCategory = ref<(typeof categories)[number]>('Crafts');
 <template>
   <main>
     <section class="hc-container py-12 sm:py-16 lg:py-20">
-      <div class="grid gap-10 lg:grid-cols-[0.76fr_1.24fr] lg:items-start">
+      <div class="grid gap-10 lg:grid-cols-[0.74fr_1.26fr] lg:items-start">
         <aside class="max-w-xl">
-          <span class="hc-badge border-hc-emerald/20 bg-hc-emerald-wash text-hc-emerald">
-            Ask a human
-          </span>
+          <StatusBadge tone="emerald" dot>Ask a human</StatusBadge>
 
           <h1 class="hc-text-balance mt-6 text-5xl font-semibold leading-[0.96] text-hc-ink sm:text-6xl lg:text-7xl">
             What do you need help with?
           </h1>
 
           <p class="mt-6 max-w-lg text-lg leading-8 text-hc-muted sm:text-xl">
-            Ask a real person. If they solve it, their answer may help the next person too.
+            Ask a real person. If they solve it, their answer can become reusable guidance for the next person too.
           </p>
 
           <div class="mt-10 rounded-[8px] border border-hc-line bg-hc-paper p-5 shadow-hc-soft">
@@ -46,10 +45,14 @@ const selectedCategory = ref<(typeof categories)[number]>('Crafts');
             <div class="flex items-center gap-4">
               <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-hc-amber-soft text-sm font-semibold text-hc-ink">3</div>
               <div>
-                <p class="text-lg font-semibold leading-6 text-hc-ink">The help keeps going</p>
-                <p class="mt-1 text-sm leading-6 text-hc-muted">Their answer can become reusable guidance for future people.</p>
+                <p class="text-lg font-semibold leading-6 text-hc-ink">Their help keeps going</p>
+                <p class="mt-1 text-sm leading-6 text-hc-muted">AI organizes the human answer into reusable formats.</p>
               </div>
             </div>
+          </div>
+
+          <div class="mt-5">
+            <OpenRequestCard :request="openRequest" />
           </div>
         </aside>
 
@@ -61,7 +64,7 @@ const selectedCategory = ref<(typeof categories)[number]>('Crafts');
               </label>
               <input
                 id="problem-title"
-                class="hc-input mt-2 rounded-[8px]"
+                class="hc-input mt-2"
                 type="text"
                 placeholder="How do I stop this knot from slipping?"
               />
@@ -74,7 +77,7 @@ const selectedCategory = ref<(typeof categories)[number]>('Crafts');
               <textarea
                 id="problem-description"
                 class="mt-2 min-h-40 w-full resize-y rounded-[8px] border border-hc-line bg-hc-paper px-5 py-4 text-base leading-7 text-hc-ink shadow-sm outline-none transition placeholder:text-hc-soft focus:border-hc-emerald focus:ring-4 focus:ring-hc-emerald-soft"
-                placeholder="Tell us what you tried and where you're stuck…"
+                placeholder="Tell us what you tried and where you're stuck..."
               ></textarea>
             </div>
 
@@ -108,11 +111,11 @@ const selectedCategory = ref<(typeof categories)[number]>('Crafts');
             </fieldset>
 
             <div class="border-t border-hc-line pt-6">
-              <button class="hc-button hc-button-primary min-h-14 w-full rounded-[8px] px-5 sm:w-auto" type="submit">
+              <AppButton size="lg" type="submit" class="w-full sm:w-auto">
                 Ask for help
-              </button>
+              </AppButton>
               <p class="mt-4 max-w-xl text-sm leading-6 text-hc-muted">
-                If someone solves this, their demonstration can become reusable human help for others.
+                When someone answers, their demonstration can become reusable human help after it solves the first problem.
               </p>
             </div>
           </div>
