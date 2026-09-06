@@ -13,6 +13,13 @@ type IllustrationPath = {
   width: string;
 };
 
+type ProcessingStep = {
+  label: string;
+  provider?: string;
+  symbol: '✓' | '●' | '○';
+  status: 'complete' | 'active' | 'queued';
+};
+
 type HelpRequestPage = {
   id: string;
   badge: string;
@@ -61,6 +68,10 @@ type HelpRequestPage = {
     idleStatus: string;
     transformingStatus: string;
     readyStatus: string;
+    processingHeading: string;
+    processingSteps: ProcessingStep[];
+    completionTitle: string;
+    completionCta: string;
   };
   reuse: {
     sourceLabel: string;
@@ -146,6 +157,44 @@ const defaultRequest: HelpRequestPage = {
     idleStatus: 'Ready to transform the human demo.',
     transformingStatus: 'Preserving the source and shaping reusable guidance.',
     readyStatus: 'Reusable help flow started from John’s answer.',
+    processingHeading: 'Making one act of help reusable…',
+    processingSteps: [
+      {
+        label: 'Human answer received',
+        symbol: '✓',
+        status: 'complete',
+      },
+      {
+        label: 'Understanding the demonstration',
+        provider: 'Google Gemini',
+        symbol: '✓',
+        status: 'complete',
+      },
+      {
+        label: 'Finding important moments',
+        symbol: '●',
+        status: 'active',
+      },
+      {
+        label: 'Creating reusable steps',
+        symbol: '○',
+        status: 'queued',
+      },
+      {
+        label: 'Preparing accessible narration',
+        provider: 'ElevenLabs',
+        symbol: '○',
+        status: 'queued',
+      },
+      {
+        label: 'Adding the help to the reusable knowledge library',
+        provider: 'Snowflake',
+        symbol: '○',
+        status: 'queued',
+      },
+    ],
+    completionTitle: 'Your help can now help others.',
+    completionCta: 'View reusable guide',
   },
   reuse: {
     sourceLabel: 'You',
@@ -177,6 +226,30 @@ const reuseStatus = ref<'idle' | 'transforming' | 'ready'>('idle');
 let reuseTimer: ReturnType<typeof setTimeout> | undefined;
 
 const isTransforming = computed(() => reuseStatus.value === 'transforming');
+const isReusableReady = computed(() => reuseStatus.value === 'ready');
+const showProcessingMoment = computed(() => reuseStatus.value !== 'idle');
+
+const visibleProcessingSteps = computed<ProcessingStep[]>(() => {
+  if (!isReusableReady.value) {
+    return request.value.transform.processingSteps;
+  }
+
+  return request.value.transform.processingSteps.map((step): ProcessingStep => ({
+    ...step,
+    symbol: '✓',
+    status: 'complete',
+  }));
+});
+
+const processingStepClass = (status: ProcessingStep['status']) => {
+  const classes = {
+    complete: 'bg-hc-emerald text-white',
+    active: 'bg-hc-amber text-hc-ink',
+    queued: 'bg-hc-canvas text-hc-ink',
+  };
+
+  return classes[status];
+};
 
 const transformButtonLabel = computed(() => {
   if (reuseStatus.value === 'transforming') {
@@ -212,7 +285,7 @@ const makeHelpReusable = () => {
 
   reuseTimer = setTimeout(() => {
     reuseStatus.value = 'ready';
-  }, 900);
+  }, 1600);
 };
 
 onBeforeUnmount(() => {
@@ -458,6 +531,106 @@ onBeforeUnmount(() => {
           </p>
         </article>
       </div>
+
+      <Transition name="hc-discovery">
+        <article
+          v-if="showProcessingMoment"
+          class="rounded-[8px] bg-hc-ink p-6 shadow-hc-card sm:p-8 lg:p-10"
+          aria-live="polite"
+        >
+          <div class="grid gap-10 lg:grid-cols-2 lg:items-start">
+            <div class="min-w-0">
+              <p class="text-sm font-semibold uppercase leading-5 text-hc-amber-soft">Processing transformation</p>
+              <h2 class="hc-text-balance mt-4 max-w-xl text-4xl font-semibold leading-tight text-hc-paper sm:text-5xl">
+                {{ request.transform.processingHeading }}
+              </h2>
+              <p class="mt-5 max-w-xl text-base leading-8 text-hc-paper-soft sm:text-lg">
+                One human video is becoming structured reusable knowledge, while {{ request.humanAnswer.helperName }} remains the source.
+              </p>
+
+              <div class="mt-9 grid gap-4 sm:grid-cols-3 sm:items-center">
+                <div class="rounded-[8px] bg-hc-paper p-5 text-hc-ink shadow-hc-soft">
+                  <p class="text-xs font-semibold uppercase leading-4 text-hc-muted">Human video</p>
+                  <p class="mt-3 text-2xl font-semibold leading-none">{{ request.humanAnswer.duration }}</p>
+                  <p class="mt-2 text-sm font-semibold leading-6">helper: {{ request.humanAnswer.helperName }}</p>
+                </div>
+
+                <div class="flex min-h-20 flex-col items-center justify-center gap-2 text-center">
+                  <svg class="h-16 w-28 sm:h-14 sm:w-full" viewBox="0 0 160 72" aria-hidden="true">
+                    <path class="hidden sm:block" d="M14 36h92" fill="none" stroke="#d89b3d" stroke-linecap="round" stroke-width="4" />
+                    <path class="hidden sm:block" d="m98 22 24 14-24 14" fill="none" stroke="#d89b3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+                    <path class="hidden sm:block" d="M122 36c14 0 18-12 26-18M122 36c14 0 18 12 26 18" fill="none" stroke="#d7c9b7" stroke-linecap="round" stroke-width="2" />
+                    <path class="sm:hidden" d="M80 8v38" fill="none" stroke="#d89b3d" stroke-linecap="round" stroke-width="4" />
+                    <path class="sm:hidden" d="m66 40 14 24 14-24" fill="none" stroke="#d89b3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+                    <circle class="hidden sm:block" cx="14" cy="36" r="5" fill="#fffdf8" />
+                    <circle class="hidden sm:block" cx="80" cy="36" r="4" fill="#fffdf8" opacity="0.72" />
+                    <circle class="hidden sm:block" cx="148" cy="18" r="4" fill="#fffdf8" opacity="0.78" />
+                    <circle class="hidden sm:block" cx="148" cy="54" r="4" fill="#fffdf8" opacity="0.78" />
+                    <circle class="sm:hidden" cx="80" cy="8" r="5" fill="#fffdf8" />
+                    <circle class="sm:hidden" cx="80" cy="64" r="5" fill="#fffdf8" />
+                  </svg>
+                  <p class="text-xs font-semibold uppercase leading-4 text-hc-amber-soft">
+                    AI organizes
+                  </p>
+                </div>
+
+                <div class="rounded-[8px] p-5 bg-hc-paper text-hc-ink shadow-hc-soft">
+                  <p class="text-xs font-semibold uppercase leading-4 text-hc-muted">Structured reusable knowledge</p>
+                  <p class="mt-3 text-2xl font-semibold leading-none">3 steps</p>
+                  <p class="mt-2 text-sm font-semibold leading-6">watch, read, listen</p>
+                </div>
+              </div>
+
+              <div class="mt-6 grid gap-3 sm:grid-cols-3">
+                <div class="rounded-[8px] bg-white p-4 text-hc-paper">
+                  <p class="text-xs font-semibold uppercase leading-4 text-hc-line-strong">Step 1</p>
+                  <p class="mt-2 text-sm font-semibold leading-6">Cross the yarn</p>
+                </div>
+                <div class="rounded-[8px] bg-white p-4 text-hc-paper">
+                  <p class="text-xs font-semibold uppercase leading-4 text-hc-line-strong">Step 2</p>
+                  <p class="mt-2 text-sm font-semibold leading-6">Pull through the loop</p>
+                </div>
+                <div class="rounded-[8px] bg-white p-4 text-hc-paper">
+                  <p class="text-xs font-semibold uppercase leading-4 text-hc-line-strong">Step 3</p>
+                  <p class="mt-2 text-sm font-semibold leading-6">Tighten cleanly</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="min-w-0 rounded-[8px] bg-hc-paper p-4 shadow-hc-soft sm:p-5" style="background-color: #fffdf8; color: #20231f;">
+              <ol class="grid gap-3 sm:grid-cols-2">
+                <li
+                  v-for="step in visibleProcessingSteps"
+                  :key="step.label"
+                  class="grid min-w-0 grid-cols-[1.75rem_1fr] gap-3 rounded-[8px] bg-hc-paper-soft p-3"
+                >
+                  <span
+                    class="flex size-7 items-center justify-center rounded-full text-xs font-semibold"
+                    :class="processingStepClass(step.status)"
+                  >
+                    {{ step.symbol }}
+                  </span>
+                  <span class="min-w-0">
+                    <span class="block text-sm font-semibold leading-5" style="color: #20231f;">{{ step.label }}</span>
+                    <span v-if="step.provider" class="mt-0.5 block text-[0.68rem] font-semibold uppercase leading-4" style="color: #777167;">
+                      {{ step.provider }}
+                    </span>
+                  </span>
+                </li>
+              </ol>
+
+              <Transition name="hc-discovery">
+                <div v-if="isReusableReady" class="mt-5 rounded-[8px] bg-hc-emerald p-4 text-white">
+                  <p class="text-xl font-semibold leading-tight">{{ request.transform.completionTitle }}</p>
+                  <button class="hc-button mt-4 min-h-11 rounded-[8px] bg-hc-paper px-4 text-sm font-semibold text-hc-emerald hover:bg-white focus-visible:outline-white" type="button">
+                    {{ request.transform.completionCta }}
+                  </button>
+                </div>
+              </Transition>
+            </div>
+          </div>
+        </article>
+      </Transition>
     </section>
   </main>
 </template>
