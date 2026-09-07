@@ -20,6 +20,15 @@ let connectionPromise: Promise<snowflake.Connection> | undefined;
   .configure?.({ logLevel: 'ERROR' });
 
 type SnowflakeRow = Record<string, unknown>;
+type SnowflakeRuntimeConfig = {
+  account?: string;
+  username?: string;
+  password?: string;
+  warehouse?: string;
+  database?: string;
+  schema?: string;
+  role?: string;
+};
 
 export async function executeSnowflake<T extends SnowflakeRow = SnowflakeRow>(
   event: H3Event,
@@ -71,6 +80,7 @@ export async function createHelpRequest(
   event: H3Event,
   input: CreateHelpRequestInput,
 ): Promise<HelpRequest> {
+  const tables = getSnowflakeTables(event);
   const request: HelpRequest = {
     id: randomUUID(),
     title: input.title,
@@ -82,7 +92,7 @@ export async function createHelpRequest(
   };
 
   await executeSnowflake(event, `
-    INSERT INTO HELP_REQUESTS (ID, TITLE, DESCRIPTION, CATEGORY, ASKED_BY, STATUS, CREATED_AT)
+    INSERT INTO ${tables.requests} (ID, TITLE, DESCRIPTION, CATEGORY, ASKED_BY, STATUS, CREATED_AT)
     SELECT ?, ?, ?, ?, ?, ?, TO_TIMESTAMP_NTZ(?)
   `, [
     request.id,
@@ -98,9 +108,10 @@ export async function createHelpRequest(
 }
 
 export async function getOpenHelpRequests(event: H3Event) {
+  const tables = getSnowflakeTables(event);
   const rows = await executeSnowflake(event, `
     SELECT ID, TITLE, DESCRIPTION, CATEGORY, ASKED_BY, STATUS, CREATED_AT
-    FROM HELP_REQUESTS
+    FROM ${tables.requests}
     WHERE STATUS = 'open'
     ORDER BY CREATED_AT DESC
     LIMIT 20
@@ -110,9 +121,10 @@ export async function getOpenHelpRequests(event: H3Event) {
 }
 
 export async function getHelpRequest(event: H3Event, id: string) {
+  const tables = getSnowflakeTables(event);
   const rows = await executeSnowflake(event, `
     SELECT ID, TITLE, DESCRIPTION, CATEGORY, ASKED_BY, STATUS, CREATED_AT
-    FROM HELP_REQUESTS
+    FROM ${tables.requests}
     WHERE ID = ?
     LIMIT 1
   `, [id]);
@@ -126,6 +138,7 @@ export async function saveGuide(
   helperName: string,
   content: ProcessedGuideContent,
 ) {
+  const tables = getSnowflakeTables(event);
   const guide: HelpGuide = {
     id: randomUUID(),
     requestId: request.id,
@@ -140,7 +153,7 @@ export async function saveGuide(
   };
 
   await executeSnowflake(event, `
-    INSERT INTO HELP_GUIDES (
+    INSERT INTO ${tables.guides} (
       ID,
       REQUEST_ID,
       TITLE,
@@ -168,7 +181,7 @@ export async function saveGuide(
   ]);
 
   await executeSnowflake(event, `
-    UPDATE HELP_REQUESTS
+    UPDATE ${tables.requests}
     SET STATUS = 'processed'
     WHERE ID = ?
   `, [request.id]);
@@ -177,6 +190,7 @@ export async function saveGuide(
 }
 
 export async function getGuide(event: H3Event, id: string) {
+  const tables = getSnowflakeTables(event);
   const rows = await executeSnowflake(event, `
     SELECT
       ID,
@@ -188,7 +202,7 @@ export async function getGuide(event: H3Event, id: string) {
       GUIDE_JSON,
       SEARCHABLE_TEXT,
       CREATED_AT
-    FROM HELP_GUIDES
+    FROM ${tables.guides}
     WHERE ID = ?
     LIMIT 1
   `, [id]);
@@ -201,6 +215,7 @@ export async function searchGuides(
   query: string,
 ): Promise<HelpSearchResult[]> {
   const config = useRuntimeConfig(event);
+  const tables = getSnowflakeTables(event);
   const threshold = Number(config.help?.searchThreshold || DEFAULT_SEARCH_THRESHOLD);
   const rows = await executeSnowflake(event, `
     WITH IMPACT AS (
@@ -208,7 +223,7 @@ export async function searchGuides(
         HELP_ID,
         COUNT(DISTINCT ANONYMOUS_ID) AS PEOPLE_HELPED,
         COUNT(DISTINCT LANGUAGE_CODE) AS LANGUAGES_REACHED
-      FROM HELP_EVENTS
+      FROM ${tables.events}
       WHERE EVENT_TYPE = 'HELPED'
       GROUP BY HELP_ID
     ),
@@ -221,7 +236,7 @@ export async function searchGuides(
         AI_SIMILARITY(G.SEARCHABLE_TEXT, ?) AS RELEVANCE,
         COALESCE(I.PEOPLE_HELPED, 0) AS PEOPLE_HELPED,
         COALESCE(I.LANGUAGES_REACHED, 0) AS LANGUAGES_REACHED
-      FROM HELP_GUIDES G
+      FROM ${tables.guides} G
       LEFT JOIN IMPACT I ON I.HELP_ID = G.ID
     )
     SELECT
@@ -254,9 +269,10 @@ export async function recordHelped(
   guideId: string,
   input: HelpedEventInput,
 ) {
+  const tables = getSnowflakeTables(event);
   const existing = await executeSnowflake(event, `
     SELECT COUNT(*) AS TOTAL
-    FROM HELP_EVENTS
+    FROM ${tables.events}
     WHERE HELP_ID = ?
       AND ANONYMOUS_ID = ?
       AND EVENT_TYPE = 'HELPED'
@@ -270,7 +286,7 @@ export async function recordHelped(
   }
 
   await executeSnowflake(event, `
-    INSERT INTO HELP_EVENTS (
+    INSERT INTO ${tables.events} (
       ID,
       HELP_ID,
       EVENT_TYPE,
@@ -298,17 +314,18 @@ export async function getGuideImpact(
   event: H3Event,
   guideId: string,
 ): Promise<HelpImpact> {
+  const tables = getSnowflakeTables(event);
   const impactRows = await executeSnowflake(event, `
       SELECT
         COUNT(DISTINCT ANONYMOUS_ID) AS PEOPLE_HELPED,
         COUNT(DISTINCT LANGUAGE_CODE) AS LANGUAGES_REACHED
-      FROM HELP_EVENTS
+      FROM ${tables.events}
       WHERE HELP_ID = ?
         AND EVENT_TYPE = 'HELPED'
     `, [guideId]);
   const recipientRows = await executeSnowflake(event, `
       SELECT ANONYMOUS_ID, DISPLAY_NAME
-      FROM HELP_EVENTS
+      FROM ${tables.events}
       WHERE HELP_ID = ?
         AND EVENT_TYPE = 'HELPED'
       QUALIFY ROW_NUMBER() OVER (
@@ -332,15 +349,16 @@ export async function getGuideImpact(
 }
 
 export async function getGlobalImpact(event: H3Event): Promise<GlobalHelpImpact> {
+  const tables = getSnowflakeTables(event);
   const rows = await executeSnowflake(event, `
     SELECT
       (SELECT COUNT(DISTINCT HELP_ID || ':' || ANONYMOUS_ID)
-       FROM HELP_EVENTS
+       FROM ${tables.events}
        WHERE EVENT_TYPE = 'HELPED') AS PEOPLE_HELPED,
       (SELECT COUNT(*)
-       FROM HELP_GUIDES) AS HUMAN_SOLUTIONS,
+       FROM ${tables.guides}) AS HUMAN_SOLUTIONS,
       (SELECT COUNT(DISTINCT LANGUAGE_CODE)
-       FROM HELP_EVENTS
+       FROM ${tables.events}
        WHERE EVENT_TYPE = 'HELPED') AS LANGUAGES_REACHED
   `);
 
@@ -359,18 +377,18 @@ function getSnowflakeConnection(event: H3Event) {
   }
 
   const config = useRuntimeConfig(event);
+  const runtimeSnowflake = config.snowflake as unknown as SnowflakeRuntimeConfig;
   const snowflakeConfig = {
-    account: String(config.snowflake?.account || ''),
-    username: String(config.snowflake?.username || ''),
-    password: String(config.snowflake?.password || ''),
-    token: String(config.snowflake?.token || ''),
-    warehouse: String(config.snowflake?.warehouse || 'HELPCHAIN_WH'),
-    database: String(config.snowflake?.database || 'HELPCHAIN'),
-    schema: String(config.snowflake?.schema || 'PUBLIC'),
-    role: String(config.snowflake?.role || ''),
+    account: String(runtimeSnowflake.account || ''),
+    username: String(runtimeSnowflake.username || ''),
+    password: String(runtimeSnowflake.password || ''),
+    warehouse: String(runtimeSnowflake.warehouse || 'HELPCHAIN_WH'),
+    database: String(runtimeSnowflake.database || 'HELPCHAIN'),
+    schema: String(runtimeSnowflake.schema || 'PUBLIC'),
+    role: String(runtimeSnowflake.role || ''),
   };
 
-  if (!snowflakeConfig.account || !snowflakeConfig.username || (!snowflakeConfig.password && !snowflakeConfig.token)) {
+  if (!snowflakeConfig.account || !snowflakeConfig.username || !snowflakeConfig.password) {
     throw apiError(503, 'SNOWFLAKE_NOT_CONFIGURED', 'Snowflake is not configured.');
   }
 
@@ -378,14 +396,7 @@ function getSnowflakeConnection(event: H3Event) {
     .createConnection({
       account: snowflakeConfig.account,
       username: snowflakeConfig.username,
-      ...(snowflakeConfig.token
-        ? {
-            authenticator: 'PROGRAMMATIC_ACCESS_TOKEN',
-            token: snowflakeConfig.token,
-          }
-        : {
-            password: snowflakeConfig.password,
-          }),
+      password: snowflakeConfig.password,
       warehouse: snowflakeConfig.warehouse,
       database: snowflakeConfig.database,
       schema: snowflakeConfig.schema,
@@ -399,6 +410,29 @@ function getSnowflakeConnection(event: H3Event) {
     });
 
   return connectionPromise;
+}
+
+function getSnowflakeTables(event: H3Event) {
+  const config = useRuntimeConfig(event);
+  const runtimeSnowflake = config.snowflake as unknown as SnowflakeRuntimeConfig;
+  const database = quoteSnowflakeIdentifier(String(runtimeSnowflake.database || 'HELPCHAIN'), 'database');
+  const schema = quoteSnowflakeIdentifier(String(runtimeSnowflake.schema || 'PUBLIC'), 'schema');
+
+  return {
+    requests: `${database}.${schema}.${quoteSnowflakeIdentifier('HELP_REQUESTS', 'table')}`,
+    guides: `${database}.${schema}.${quoteSnowflakeIdentifier('HELP_GUIDES', 'table')}`,
+    events: `${database}.${schema}.${quoteSnowflakeIdentifier('HELP_EVENTS', 'table')}`,
+  };
+}
+
+function quoteSnowflakeIdentifier(value: string, label: string) {
+  const identifier = value.trim().toUpperCase();
+
+  if (!/^[A-Z_][A-Z0-9_$]*$/.test(identifier)) {
+    throw apiError(503, 'SNOWFLAKE_CONFIG_INVALID', `Snowflake ${label} configuration is invalid.`);
+  }
+
+  return `"${identifier}"`;
 }
 
 function shouldResetSnowflakeConnection(error: unknown) {

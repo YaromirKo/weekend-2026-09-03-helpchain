@@ -14,11 +14,11 @@
 USE DATABASE HELPCHAIN;
 USE SCHEMA PUBLIC;
 
--- Manual semantic search smoke test after setup:
+-- Manual semantic search smoke test:
 -- SELECT
 --   ID,
 --   TITLE,
---   AI_SIMILARITY(SEARCHABLE_TEXT, 'My houseplant leaves keep turning yellow and the dirt never dries.') AS RELEVANCE
+--   AI_SIMILARITY(SEARCHABLE_TEXT, '<query text>') AS RELEVANCE
 -- FROM HELP_GUIDES
 -- ORDER BY RELEVANCE DESC
 -- LIMIT 5;
